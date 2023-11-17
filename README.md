@@ -2,7 +2,7 @@
 
 ## SKŁAD ZESPOŁU
 
-- Aleksandra Buczma 
+- Aleksandra Buczma
 - Julian Mossakowski
 - Zofia Jasina
 
@@ -15,16 +15,16 @@ Elektroniczna odsłona planszowej gry Tajniacy
 ## TECHNOLOGIE
 
 - JavaScript / HTML / CSS
-- Node.js - Express
+- Node.js (v20.9.0) - Express - Socket.io
 - Oracle Database
 
 ## PLAN
 
-Założenia funkcjonalne: 
+Założenia funkcjonalne:
 
-- przeglądarkowa aplikacja umożliwająca osobom na różnych urządzeniach grę online na wspólnej planszy
+- przeglądarkowa aplikacja umożliwająca osobom na różnych urządzeniach podłączonych do wspólnej sieci lokalnej grę online na wspólnej planszy
 
-- implementacja zasad oraz logiki gry planszowej Tajniacy  
+- implementacja zasad oraz logiki gry planszowej Tajniacy
   - https://en.m.wikipedia.org/wiki/Codenames_(board_game)
 
 - zewnętrznie realizowany, niewymuszany przez aplikację, podział na dwie drużyny
@@ -45,6 +45,8 @@ Założenia funkcjonalne:
   - pokazywanie aktualnego stanu gry poprzez opisy oraz wykorzystanie kolorów
 
 - możliwość restartu rozgrywki
+
+- podstrona z instrukcją gry
 
 
 figma: https://www.figma.com/file/qS4lVIp6AI6GBxw0a8AccO/CODENAMES?type=design&node-id=0-1&mode=design&t=jmr3H47DsCwymCVb-0
