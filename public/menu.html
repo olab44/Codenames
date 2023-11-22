@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> The Codenames Game </title>
+    <link rel="shorcut icon" type="image/x-icon" href="images/favicon.ico">
+    <link rel="stylesheet" href="menu.css">
+<body>
+    <img src="images/logo.png">
+    <div class="gameMenu">
+        <form id="optionsForm">
+            <input type="text" gameId="gameID" placeholder="Enter game ID" required
+            oninvalid="this.setCustomValidity('Cannot be left blank')"
+            oninput="this.setCustomValidity('')"/>
+            <button type="submit">Play</button>
+        </form>
+    </div>
+</body>
+
+</head>
+</html>

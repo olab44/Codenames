@@ -1,0 +1,36 @@
+<!-- page.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Real-time Button</title>
+  <style>
+    #myButton {
+      padding: 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <button id="myButton">Click me!</button>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+    let roomID = window.location.href.substring(window.location.href.lastIndexOf("/") + 1);
+
+    document.getElementById('myButton').addEventListener('click', () => {
+      socket.emit('buttonClick', {id: roomID});
+    });
+
+    socket.on('updateColor', (color) => {
+      document.getElementById('myButton').style.backgroundColor = color;
+    })
+
+    socket.on('connect', () => {
+      socket.emit('joinRoom', {id: roomID});
+    });
+  </script>
+</body>
+</html>
