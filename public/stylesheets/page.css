@@ -1,0 +1,90 @@
+body {
+  font-size: larger;
+  background-color: #d2d2d2;
+  display: grid;
+  place-items: center;
+  margin: 0;
+}
+
+button {
+  position: fixed;
+  top: 1vh;
+  left: 5vh;
+  width: fit-content;
+  height: 5vh;
+  padding: 0 1vh;
+}
+
+#turnLabel {
+  position: fixed;
+  bottom: 5vh;
+  width: 100%;
+  height: 10vh;
+}
+#turnLabel.blueTurn {
+  background-color: blue;
+}
+#turnLabel.redTurn {
+  background-color: red;
+}
+
+#counters {
+  position: fixed;
+  top: 1vh;
+  right: 5vh;
+  background-color: white;
+  width: fit-content;
+}
+#blueLeft {
+  display: inline-block;
+  color: blue;
+}
+#redLeft {
+  display: inline-block;
+  color: red;
+}
+
+#clueInput {
+  background-color: white;
+}
+#clueInput.hidden {
+  display: none;
+}
+
+#board {
+  margin-top: 5vh;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 5px;
+}
+
+.card {
+  box-sizing: border-box;
+  width: 20vh;
+  height: 15vh;
+  border: 1px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.card.red {
+  background-color: #ff6060;
+}
+.card.blue {
+  background-color: #6060ff;
+}
+.card.yellow {
+  background-color: #ffff60;
+}
+.card.black {
+  background-color: #303030;
+}
+.card.highlight {
+  border-width: 3px;
+}
+.card.revealed {
+  opacity: 0.25;
+}

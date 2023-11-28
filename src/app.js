@@ -1,51 +1,66 @@
-const express = require('express');
-const http = require('http');
-const socketIO = require('socket.io');
-const path = require('path');
+const express = require("express");
+const http = require("http");
+const socketIO = require("socket.io");
+const path = require("path");
 
 const app = express();
 const server = http.createServer(app);
 const io = socketIO(server);
 
-app.use(express.static(path.resolve(__dirname, '../public')));
+app.use(express.static(path.resolve(__dirname, "../public")));
 app.use(express.urlencoded({ extended: true }));
 
-app.get('/', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '../public/menu.html'))
+const { generateGame } = require('./game');
+let gameState = generateGame();
+
+app.get("/", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "../public/menu.html"))
 });
 
-app.get('/:name', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '../public/page.html'));
+app.post("/redirect", (req, res) => {
+  const gameID = req.body.gameID;
+  res.redirect(`/${gameID}`);
 });
 
-io.on('connection', (socket) => {
-  console.log('A user connected');
+app.get("/:name", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "../public/page.html"));
+});
 
-  socket.on('buttonClick', (data) => {
-    const color = getRandomColor()
-    io.to(data.id).emit('updateColor', color);
+io.on("connection", (socket) => {
+  console.log("Welcome to the game!");
+
+  socket.on("update", () => {
+    io.emit("update", gameState);
   });
 
-  socket.on('disconnect', () => {
-    console.log('User disconnected');
-  });
-
-  socket.on('joinRoom', (data) => {
-    socket.room = data.id;
-    socket.join(data.id)
+  socket.on("revealCard", (index) => {
+    const card = gameState.gameBoard[index];
+    card.revealed = true;
+    const cardColor = card.color;
+    switch (cardColor) {
+      case "blue":
+        --gameState.blueCards;
+        if (!gameState.isBlueTurn) { gameState.isBlueTurn = !gameState.isBlueTurn; }
+        break;
+      case "red":
+        --gameState.redCards;
+        if (gameState.isBlueTurn) { gameState.isBlueTurn = !gameState.isBlueTurn; }
+        break;
+      case "yellow":
+        gameState.isBlueTurn = !gameState.isBlueTurn;
+        break;
+      case "black":
+        console.log("END GAME");
+        break;
+    }
+    if (--gameState.moveCounter == 0) { gameState.isBlueTurn = !gameState.isBlueTurn; }
+    if (gameState.blueCards == 0) { console.log("BLUE WIN"); }
+    if (gameState.redCards == 0) { console.log("RED WIN"); }
+    io.emit("update", gameState);
   });
 });
 
 const PORT = 3000;
-server.listen(PORT, '0.0.0.0', () => {
+server.listen(PORT, "0.0.0.0", () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
-
-function getRandomColor() {
-  const letters = '0123456789ABCDEF';
-  let color = '#';
-  for (let i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
-}

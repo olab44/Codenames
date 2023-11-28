@@ -1,36 +1,93 @@
-<!-- page.html -->
 <!DOCTYPE html>
-<html lang="en">
+
+<html>
 <head>
-  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Real-time Button</title>
-  <style>
-    #myButton {
-      padding: 10px;
-      cursor: pointer;
-    }
-  </style>
+  <title> The Codenames Game </title>
+  <link rel="shorcut icon" type="image/x-icon" href="images/favicon.ico">
+  <link rel="stylesheet" href="stylesheets/page.css">
 </head>
 <body>
-  <button id="myButton">Click me!</button>
+
+  <div id="counters">
+    <div id="blueLeft"></div>
+    <div id="redLeft"></div>
+    <div id="moveCounter"></div>
+  </div>
+  <button onclick="changeRole()">Change Role</button>
+  <div id="board"></div>
+  <div id="turnLabel"></div>
+  <div id="clueInput" class="hidden">INPUT</div>
+
 
   <script src="/socket.io/socket.io.js"></script>
   <script>
+
     const socket = io();
-    let roomID = window.location.href.substring(window.location.href.lastIndexOf("/") + 1);
+    let isSpymaster = false;
+    socket.emit("update")
 
-    document.getElementById('myButton').addEventListener('click', () => {
-      socket.emit('buttonClick', {id: roomID});
+    socket.on("update", (gameState) => {
+      updateCardsCount(gameState.blueCards, gameState.redCards);
+      updateMoveCount(gameState.moveCounter);
+      showClueInput();
+      changeTurn(gameState.isBlueTurn);
+      renderBoard(gameState.gameBoard);
     });
 
-    socket.on('updateColor', (color) => {
-      document.getElementById('myButton').style.backgroundColor = color;
-    })
+    function changeRole() {
+      isSpymaster = !isSpymaster;
+      socket.emit("update")
+    }
 
-    socket.on('connect', () => {
-      socket.emit('joinRoom', {id: roomID});
-    });
+    function showClueInput() {
+      const input = document.getElementById("clueInput")
+      if (isSpymaster) {input.classList.remove("hidden")}
+      else {input.classList.add("hidden")}
+    }
+
+    function updateMoveCount(moves) {
+      document.getElementById("moveCounter").textContent = moves;
+    }
+
+    function updateCardsCount(blueCount, redCount) {
+      document.getElementById("blueLeft").textContent = blueCount;
+      document.getElementById("redLeft").textContent = redCount;
+    }
+
+    function changeTurn(isBlueTurn) {
+      const label = document.getElementById("turnLabel");
+      if (isBlueTurn) { label.classList.add("blueTurn"); label.classList.remove("redTurn");}
+      else { label.classList.add("redTurn"); label.classList.remove("blueTurn"); }
+    }
+
+    function renderBoard(gameBoard) {
+      const board = document.getElementById('board');
+      board.innerHTML = '';
+      for (let i = 0; i < 25; i++) {
+        let gameCard = gameBoard[i];
+        const card = document.createElement("div");
+        card.className = "card";
+        card.textContent = gameCard.word;
+
+        if (gameCard.revealed || isSpymaster) { card.classList.add(gameCard.color); };
+        if (gameCard.revealed && isSpymaster) { card.classList.add("revealed"); };
+
+        card.addEventListener("click", (event) => {
+          event.preventDefault();
+          if (!gameCard.revealed) { card.classList.toggle("highlight"); }
+        });
+        if (!isSpymaster && !gameCard.revealed) {
+          card.addEventListener("dblclick", (event) => {
+            event.preventDefault();
+            socket.emit("revealCard", i);
+        });
+        }
+
+      board.appendChild(card);
+      }
+    }
   </script>
+
 </body>
 </html>
