@@ -10,8 +10,9 @@ const io = socketIO(server);
 app.use(express.static(path.resolve(__dirname, "../public")));
 app.use(express.urlencoded({ extended: true }));
 
-const { generateGame } = require('./game');
-let gameState = generateGame();
+const { GameState } = require('./game');
+let gameState = new GameState();
+gameState.initializeGame();
 
 app.get("/", (req, res) => {
   res.sendFile(path.resolve(__dirname, "../public/menu.html"))
