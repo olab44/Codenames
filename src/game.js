@@ -63,7 +63,7 @@ class Board {
           const randomWords = getRandomWords(codenamesData, 25);
           for (i = 0; i < 9; i++) { this.tiles.push(new Card(randomWords[i].word_text, 'blue'));}
           for (i = 0; i < 8; i++) { this.tiles.push(new Card(randomWords[i+9].word_text, 'red'));}
-          for (i = 0; i < 7; i++) { this.tiles.push(new Card(randomWords[i+17].word_text, 'white'));}
+          for (i = 0; i < 7; i++) { this.tiles.push(new Card(randomWords[i+17].word_text, 'yellow'));}
           this.tiles.push(new Card(randomWords[24].word_text, 'black'));
           shuffle(this.tiles);;
         } 
