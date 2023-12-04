@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 
 <html>
+
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title> The Codenames Game </title>
-  <link rel="shorcut icon" type="image/x-icon" href="images/favicon.ico">
+  <title>The Codenames Game</title>
+  <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
   <link rel="stylesheet" href="stylesheets/page.css">
 </head>
+
 <body>
 
   <div id="counters">
@@ -14,15 +16,22 @@
     <div id="redLeft"></div>
     <div id="moveCounter"></div>
   </div>
-  <button onclick="changeRole()">Change Role</button>
+
   <div id="board"></div>
   <div id="turnLabel"></div>
-  <div id="clueInput" class="hidden">INPUT</div>
+
+  <div id="clueInput" class="hidden">
+    <input type="text" id="clueInputField" name="clueInput" placeholder="Enter hint" readonly>
+    <button id="submitClueButton" onclick="submitClue()">Submit Clue</button>
+  </div>
+  
+  <div id="roleChangeSection">
+    <button id="changeRoleButton" onclick="changeRole()">Change Role</button>
+  </div>
 
 
   <script src="/socket.io/socket.io.js"></script>
   <script>
-
     const socket = io();
     let isSpymaster = false;
     socket.emit("update")
@@ -41,11 +50,18 @@
     }
 
     function showClueInput() {
-      const input = document.getElementById("clueInput")
-      if (isSpymaster) {input.classList.remove("hidden")}
-      else {input.classList.add("hidden")}
+      const input = document.getElementById("clueInput");
+      const clueInputField = document.getElementById("clueInputField");
+      const submitClueButton = document.getElementById("submitClueButton");
+      input.classList.remove("hidden");
+      if (isSpymaster) {
+        clueInputField.removeAttribute("readonly");
+        submitClueButton.removeAttribute("disabled");
+      } else {
+        clueInputField.setAttribute("readonly", true);
+        submitClueButton.setAttribute("disabled", true);
+      }
     }
-
     function updateMoveCount(moves) {
       document.getElementById("moveCounter").textContent = moves;
     }
@@ -57,8 +73,13 @@
 
     function changeTurn(isBlueTurn) {
       const label = document.getElementById("turnLabel");
-      if (isBlueTurn) { label.classList.add("blueTurn"); label.classList.remove("redTurn");}
-      else { label.classList.add("redTurn"); label.classList.remove("blueTurn"); }
+      if (isBlueTurn) {
+        label.classList.add("blueTurn");
+        label.classList.remove("redTurn");
+      } else {
+        label.classList.add("redTurn");
+        label.classList.remove("blueTurn");
+      }
     }
 
     function renderBoard(gameBoard) {
@@ -70,24 +91,31 @@
         card.className = "card";
         card.textContent = gameCard.word;
 
-        if (gameCard.revealed || isSpymaster) { card.classList.add(gameCard.color); };
-        if (gameCard.revealed && isSpymaster) { card.classList.add("revealed"); };
+        if (gameCard.revealed || isSpymaster) {
+          card.classList.add(gameCard.color);
+        };
+        if (gameCard.revealed && isSpymaster) {
+          card.classList.add("revealed");
+        };
 
         card.addEventListener("click", (event) => {
           event.preventDefault();
-          if (!gameCard.revealed) { card.classList.toggle("highlight"); }
+          if (!gameCard.revealed) {
+            card.classList.toggle("highlight");
+          }
         });
         if (!isSpymaster && !gameCard.revealed) {
           card.addEventListener("dblclick", (event) => {
             event.preventDefault();
             socket.emit("revealCard", i);
-        });
+          });
         }
 
-      board.appendChild(card);
+        board.appendChild(card);
       }
     }
   </script>
 
 </body>
+
 </html>

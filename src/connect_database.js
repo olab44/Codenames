@@ -6,7 +6,8 @@ function connect() {
     host: '0.0.0.0',
     user: 'z13',
     password: 'Napoleon.1804',
-    database: 'words'
+    database: 'words',
+    port: 3306
   });
 
   db.connect((err) => {

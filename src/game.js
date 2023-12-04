@@ -1,4 +1,4 @@
-const { getAllData } = require('./connect_database.js');
+// const { getAllData } = require('./connect_database.js');
 
 
 class GameState {
@@ -19,6 +19,12 @@ class GameState {
         } catch (error) {
             console.error('Error initializing game:', error);
         }
+    }
+
+    initializeGame() {
+        let gboard2 = new Board();
+        gboard2.createBoard();
+        this.gameBoard = gboard2.tiles;
     }
 
     displayGameBoard() {
@@ -72,6 +78,18 @@ class Board {
         }
     }
 
+    createBoard() {
+        const data = fetchWords('src/words.json');
+        let i;
+        const game_words = getRandomWords(data, 25);
+        for (i = 0; i < 9; i++) { this.tiles.push(new Card(game_words[i].word, 'blue'));}
+        for (i = 0; i < 8; i++) { this.tiles.push(new Card(game_words[i+9].word, 'red'));}
+        for (i = 0; i < 7; i++) { this.tiles.push(new Card(game_words[i+17].word, 'yellow'));}
+        this.tiles.push(new Card(game_words[24].word, 'black'));
+        shuffle(this.tiles);
+        return this.tiles;
+    }
+
     displayBoard() {
         console.log('Board:');
         this.tiles.forEach((tile, index) => {
@@ -92,20 +110,33 @@ function getRandomWords(words, count) {
     return random_words;
 }
 
+function fetchWords(filePath) {
+    const fs = require('fs');
+    try {
+      const jsonData = fs.readFileSync(filePath, 'utf-8');
+      const parsedData = JSON.parse(jsonData);
+    //   console.log(parsedData);
+      return parsedData;
+      }
+     catch (error) {
+      console.error('Error reading JSON file:', error);
+    }
+}
+
+
 
 module.exports = { GameState };
 
 // const gameState = new GameState();
-// gameState.initializeGame()
+// gameState.initializeGame();
+// gameState.displayGameBoard();
+// process.exit();
 //     .then(() => {
 //         gameState.displayGameBoard();
 //         console.log(gameState);
 //         process.exit();
 //     })
 
-
-
-// const gameBoard = new Board();
 // gameBoard.initializeBoard()
 //     .then(() => {console.log(gameBoard.tiles);
 //         process.exit();
@@ -119,8 +150,6 @@ module.exports = { GameState };
 //   .finally(() => {
 //     process.exit();
 //   });
-
-
 
 
 
