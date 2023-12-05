@@ -35,7 +35,6 @@
     const socket = io();
     let isSpymaster = false;
     let clue = "";
-    let current_clue = "";
     socket.emit("update")
 
     socket.on("update", (gameState) => {
@@ -51,6 +50,19 @@
       socket.emit("update")
     }
 
+    function submitClue(){
+      newClue = document.getElementById("clueInputField").value;
+      clue = newClue;
+      socket.emit("clueSubmit", newClue);
+    }
+
+    socket.on("clueSubmit", (gameState) => {
+      clue = gameState.currentClue;
+      if (!isSpymaster){
+        document.getElementById("clueInputField").value = clue;
+      }
+    });
+
     function showClueInput() {
       const input = document.getElementById("clueInput");
       const clueInputField = document.getElementById("clueInputField");
@@ -58,10 +70,9 @@
       input.classList.remove("hidden");
       if (isSpymaster) {
         clueInputField.removeAttribute("readonly");
-        clueInputField.value = current_clue;
+        clueInputField.value = "";
         submitClueButton.removeAttribute("disabled");
       } else {
-        current_clue = clueInputField.value;
         clueInputField.value = clue;
         clueInputField.setAttribute("readonly", true);
         submitClueButton.setAttribute("disabled", true);

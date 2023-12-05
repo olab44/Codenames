@@ -8,6 +8,7 @@ class GameState {
         this.blueCards = 9;
         this.redCards = 8;
         this.moveCounter = 0;
+        this.currentClue = "";
     }
 
     async initializeGame() {

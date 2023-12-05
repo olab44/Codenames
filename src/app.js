@@ -34,6 +34,11 @@ io.on("connection", (socket) => {
     io.emit("update", gameState);
   });
 
+  socket.on("clueSubmit", (newClue) => {
+    gameState.currentClue = newClue;
+    io.emit("clueSubmit", (gameState));
+  });
+
   socket.on("revealCard", (index) => {
     const card = gameState.gameBoard[index];
     card.revealed = true;
