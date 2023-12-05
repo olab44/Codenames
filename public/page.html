@@ -34,6 +34,8 @@
   <script>
     const socket = io();
     let isSpymaster = false;
+    let clue = "";
+    let current_clue = "";
     socket.emit("update")
 
     socket.on("update", (gameState) => {
@@ -56,8 +58,11 @@
       input.classList.remove("hidden");
       if (isSpymaster) {
         clueInputField.removeAttribute("readonly");
+        clueInputField.value = current_clue;
         submitClueButton.removeAttribute("disabled");
       } else {
+        current_clue = clueInputField.value;
+        clueInputField.value = clue;
         clueInputField.setAttribute("readonly", true);
         submitClueButton.setAttribute("disabled", true);
       }
