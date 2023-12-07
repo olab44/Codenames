@@ -34,6 +34,11 @@ io.on("connection", (socket) => {
     socket.emit("update", gameState);
   });
 
+  socket.on("turnPassed", () =>{
+    changeTurn();
+    socket.emit("update", gameState);
+  });
+
   socket.on("clueSubmit", (newClue, clueNumber) => {
     gameState.currentClue = newClue;
     gameState.moveCounter = clueNumber;

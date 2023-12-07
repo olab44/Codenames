@@ -77,6 +77,27 @@ button {
   cursor: pointer;
 }
 
+#passSection {
+  position: fixed;
+  top: 40vh;
+  left: 4vh;
+  width: 15%;
+  height: 5%;
+}
+
+#passButton {
+  position: fixed;
+  top: 40vh;
+  left: 5vh;
+  width: 15%;
+
+  background-color: #158b19;
+  color: black;
+  border: 2px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
 #board {
   margin-top: 5vh;
   display: grid;

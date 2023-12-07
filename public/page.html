@@ -25,6 +25,10 @@
     <button id="submitClueButton" onclick="submitClue()" hidden>Submit Clue</button>
   </div>
 
+  <div id="passSection">
+    <button id="passButton" onclick="passTurn()">Pass Turn</button>
+  </div>
+
   <div id="roleChangeSection">
     <button id="changeRoleButton" onclick="changeRole()">Change Role</button>
   </div>
@@ -48,6 +52,10 @@
       socket.emit("update")
     }
 
+    function passTurn() {
+      socket.emit("turnPassed");
+    }
+
     function submitClue(){
       newClue = document.getElementById("clueInputField").value;
       clueNumber = document.getElementById("clueInputNumber").value;
@@ -59,6 +67,7 @@
       const clueInputField = document.getElementById("clueInputField");
       const clueInputNumber = document.getElementById("clueInputNumber");
       const submitClueButton = document.getElementById("submitClueButton");
+      const changeButton = document.getElementById("passButton");
 
       clueInputField.value = gameState.currentClue;
       clueInputNumber.value = gameState.moveCounter;
@@ -66,10 +75,12 @@
         clueInputField.removeAttribute("readonly");
         clueInputNumber.removeAttribute("readonly");
         submitClueButton.removeAttribute("hidden");
+        changeButton.setAttribute("hidden", true);
       } else {
         clueInputField.setAttribute("readonly", true);
         clueInputNumber.setAttribute("readonly", true);
         submitClueButton.setAttribute("hidden", true);
+        changeButton.removeAttribute("hidden");
       }
     }
 
