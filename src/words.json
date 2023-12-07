@@ -196,14 +196,12 @@
     {"id": 195, "word": "woda"},
     {"id": 196, "word": "samolot"},
     {"id": 197, "word": "maska"},
-    {"id": 198, "word": "dzień"},
-    {"id": 199, "word": "papier"},
-    {"id": 200, "word": "kurtka"},
-    {"id": 201, "word": "fala"},
-    {"id": 202, "word": "piasek"},
-    {"id": 203, "word": "chleb"},
-    {"id": 204, "word": "kwiatek"},
-    {"id": 205, "word": "traktor"},
-    {"id": 206, "word": "król"}
+    {"id": 198, "word": "papier"},
+    {"id": 199, "word": "kurtka"},
+    {"id": 200, "word": "fala"},
+    {"id": 201, "word": "piasek"},
+    {"id": 202, "word": "chleb"},
+    {"id": 203, "word": "kwiatek"},
+    {"id": 204, "word": "traktor"},
+    {"id": 205, "word": "król"}
 ]
-  

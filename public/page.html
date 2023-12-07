@@ -14,17 +14,17 @@
   <div id="counters">
     <div id="blueLeft"></div>
     <div id="redLeft"></div>
-    <div id="moveCounter"></div>
   </div>
 
   <div id="board"></div>
   <div id="turnLabel"></div>
 
-  <div id="clueInput" class="hidden">
-    <input type="text" id="clueInputField" name="clueInput" placeholder="Enter hint" readonly>
-    <button id="submitClueButton" onclick="submitClue()">Submit Clue</button>
+  <div id="clueInput">
+    <input type="text" id="clueInputField" name="clueInput" placeholder="hint" readonly>
+    <input type="number" id="clueInputNumber" name="clueNumber" placeholder="num" readonly>
+    <button id="submitClueButton" onclick="submitClue()" hidden>Submit Clue</button>
   </div>
-  
+
   <div id="roleChangeSection">
     <button id="changeRoleButton" onclick="changeRole()">Change Role</button>
   </div>
@@ -34,15 +34,13 @@
   <script>
     const socket = io();
     let isSpymaster = false;
-    let clue = "";
     socket.emit("update")
 
     socket.on("update", (gameState) => {
       updateCardsCount(gameState.blueCards, gameState.redCards);
-      updateMoveCount(gameState.moveCounter);
-      showClueInput();
+      showClueInput(gameState)
       changeTurn(gameState.isBlueTurn);
-      renderBoard(gameState.gameBoard);
+      renderBoard(gameState.gameBoard, gameState.moveCounter);
     });
 
     function changeRole() {
@@ -52,34 +50,27 @@
 
     function submitClue(){
       newClue = document.getElementById("clueInputField").value;
-      clue = newClue;
-      socket.emit("clueSubmit", newClue);
+      clueNumber = document.getElementById("clueInputNumber").value;
+      socket.emit("clueSubmit", newClue, clueNumber );
     }
 
-    socket.on("clueSubmit", (gameState) => {
-      clue = gameState.currentClue;
-      if (!isSpymaster){
-        document.getElementById("clueInputField").value = clue;
-      }
-    });
-
-    function showClueInput() {
+    function showClueInput(gameState) {
       const input = document.getElementById("clueInput");
       const clueInputField = document.getElementById("clueInputField");
+      const clueInputNumber = document.getElementById("clueInputNumber");
       const submitClueButton = document.getElementById("submitClueButton");
-      input.classList.remove("hidden");
+
+      clueInputField.value = gameState.currentClue;
+      clueInputNumber.value = gameState.moveCounter;
       if (isSpymaster) {
         clueInputField.removeAttribute("readonly");
-        clueInputField.value = "";
-        submitClueButton.removeAttribute("disabled");
+        clueInputNumber.removeAttribute("readonly");
+        submitClueButton.removeAttribute("hidden");
       } else {
-        clueInputField.value = clue;
         clueInputField.setAttribute("readonly", true);
-        submitClueButton.setAttribute("disabled", true);
+        clueInputNumber.setAttribute("readonly", true);
+        submitClueButton.setAttribute("hidden", true);
       }
-    }
-    function updateMoveCount(moves) {
-      document.getElementById("moveCounter").textContent = moves;
     }
 
     function updateCardsCount(blueCount, redCount) {
@@ -98,7 +89,7 @@
       }
     }
 
-    function renderBoard(gameBoard) {
+    function renderBoard(gameBoard, moveCounter) {
       const board = document.getElementById('board');
       board.innerHTML = '';
       for (let i = 0; i < 25; i++) {
@@ -120,7 +111,7 @@
             card.classList.toggle("highlight");
           }
         });
-        if (!isSpymaster && !gameCard.revealed) {
+        if (!isSpymaster && !gameCard.revealed && moveCounter != null) {
           card.addEventListener("dblclick", (event) => {
             event.preventDefault();
             socket.emit("revealCard", i);

@@ -31,40 +31,52 @@ io.on("connection", (socket) => {
   console.log("Welcome to the game!");
 
   socket.on("update", () => {
-    io.emit("update", gameState);
+    socket.emit("update", gameState);
   });
 
-  socket.on("clueSubmit", (newClue) => {
+  socket.on("clueSubmit", (newClue, clueNumber) => {
     gameState.currentClue = newClue;
-    io.emit("clueSubmit", (gameState));
+    gameState.moveCounter = clueNumber;
+    io.emit("update", gameState);
   });
 
   socket.on("revealCard", (index) => {
     const card = gameState.gameBoard[index];
     card.revealed = true;
     const cardColor = card.color;
+
+    let shouldChangeTurn = false;
     switch (cardColor) {
       case "blue":
         --gameState.blueCards;
-        if (!gameState.isBlueTurn) { gameState.isBlueTurn = !gameState.isBlueTurn; }
+        if (!gameState.isBlueTurn) { shouldChangeTurn = true; }
         break;
       case "red":
         --gameState.redCards;
-        if (gameState.isBlueTurn) { gameState.isBlueTurn = !gameState.isBlueTurn; }
+        if (gameState.isBlueTurn) { shouldChangeTurn = true; }
         break;
       case "yellow":
-        gameState.isBlueTurn = !gameState.isBlueTurn;
+        shouldChangeTurn = true;
         break;
       case "black":
         console.log("END GAME");
         break;
     }
-    if (--gameState.moveCounter == 0) { gameState.isBlueTurn = !gameState.isBlueTurn; }
+    if (shouldChangeTurn || --gameState.moveCounter == 0) { changeTurn(); }
+
     if (gameState.blueCards == 0) { console.log("BLUE WIN"); }
     if (gameState.redCards == 0) { console.log("RED WIN"); }
+
     io.emit("update", gameState);
   });
 });
+
+function changeTurn() {
+  gameState.isBlueTurn = !gameState.isBlueTurn;
+  gameState.currentClue = "";
+  gameState.moveCounter = null;
+}
+
 
 const PORT = 3000;
 server.listen(PORT, "0.0.0.0", () => {

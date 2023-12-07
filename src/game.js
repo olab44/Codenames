@@ -7,7 +7,7 @@ class GameState {
         this.isBlueTurn = true;
         this.blueCards = 9;
         this.redCards = 8;
-        this.moveCounter = 0;
+        this.moveCounter = null;
         this.currentClue = "";
     }
 
@@ -73,7 +73,7 @@ class Board {
           for (i = 0; i < 7; i++) { this.tiles.push(new Card(randomWords[i+17].word_text, 'yellow'));}
           this.tiles.push(new Card(randomWords[24].word_text, 'black'));
           shuffle(this.tiles);;
-        } 
+        }
         catch (error) {
           console.error('Error initializing board:', error);
         }
