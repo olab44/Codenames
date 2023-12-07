@@ -36,7 +36,7 @@ io.on("connection", (socket) => {
 
   socket.on("turnPassed", () =>{
     changeTurn();
-    socket.emit("update", gameState);
+    io.emit("update", gameState);
   });
 
   socket.on("clueSubmit", (newClue, clueNumber) => {
