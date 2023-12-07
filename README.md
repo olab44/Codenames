@@ -51,3 +51,59 @@ Założenia funkcjonalne:
 
 figma: https://www.figma.com/file/qS4lVIp6AI6GBxw0a8AccO/CODENAMES?type=design&node-id=0-1&mode=design&t=jmr3H47DsCwymCVb-0
 
+
+
+## PROTOTYP 
+
+priorytetem była fukncjonalność, aby zapewnić przeprowadzenie podstawowej rozgrywki
+
+# zrealizowane cele
+
+- uruchamianie serwera
+  - możliwość wspólnego grania po podłączeniu do sieci lokalnej
+  - aktualizacja stanu gry na wielu urządzeniach
+
+- tworzenie rozgrywki
+  - pobieranie 25 kart z bazy
+  - tworzenie planszy
+  - możliwość zmiany ról (agent / mistrz)
+
+- baza danych
+  - server MYSQL (zmiana założeń początkowych - Oracle)
+  - baza danych słów i ról
+
+- rozgrywka
+  - podawanie podpowiedzi oraz liczby ruchów
+  - zaznaczanie kart 
+  - informacje o turze (czyja kolej, licznik pozostałych kart do odgadnięcia)
+  - zmiana tur po błędnym odgadnięciu 
+  - zakończenie gry (informacja w konsoli)
+
+
+
+# planowany rozwój aplikacji
+
+- baza danych - ulepszenie serwera
+- historia podpowiedzi
+- tworzenie wielu rozgrywek na jednym serverze
+- liczba możliwych ruchów w turze zgodna z zasadami gry
+- podstrona z instrukcją gry
+- kontrola podpowiedzi dawanych przez szefów
+- zakończenie gry po odgadnięciu wszystkich kart lub natrafieniu na czarną
+- dołączenie do gry po wpisaniu gameID
+- wybór języka słów
+
+# podział pracy 
+
+- Aleksandra Buczma
+  - baza słów
+  - tworzenie planszy
+
+- Zofia Jasina
+  - tworzenie serwera
+  - synchronizacja między urządzeniami
+  - implementacja GUI
+
+
+- Julian Mossakowski
+  - podpowiedzi
