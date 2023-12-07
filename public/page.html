@@ -41,10 +41,15 @@
     socket.emit("update")
 
     socket.on("update", (gameState) => {
+      if (gameState.gameEnded){
+        document.querySelectorAll('body').forEach(script =>{
+        script.setAttribute('disabled', true);
+        });
+      }
       updateCardsCount(gameState.blueCards, gameState.redCards);
       showClueInput(gameState)
       changeTurn(gameState.isBlueTurn);
-      renderBoard(gameState.gameBoard, gameState.moveCounter);
+      renderBoard(gameState.gameBoard, gameState.moveCounter, gameState.gameEnded);
     });
 
     function changeRole() {
@@ -100,7 +105,7 @@
       }
     }
 
-    function renderBoard(gameBoard, moveCounter) {
+    function renderBoard(gameBoard, moveCounter, gameEnded) {
       const board = document.getElementById('board');
       board.innerHTML = '';
       for (let i = 0; i < 25; i++) {
@@ -108,7 +113,6 @@
         const card = document.createElement("div");
         card.className = "card";
         card.textContent = gameCard.word;
-
         if (gameCard.revealed || isSpymaster) {
           card.classList.add(gameCard.color);
         };
