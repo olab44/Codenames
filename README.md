@@ -16,7 +16,7 @@ Elektroniczna odsłona planszowej gry Tajniacy
 
 - JavaScript / HTML / CSS
 - Node.js (v20.9.0) - Express - Socket.io
-- Oracle Database
+- MySQL Database
 
 ## PLAN
 

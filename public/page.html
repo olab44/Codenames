@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Codenames Game</title>
+  <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
+  <link rel="stylesheet" href="stylesheets/page.css">
+</head>
+
+<body>
+
+  <div id="roleChangeSection">
+    <button id="changeRoleButton" onclick="changeRole()">Change Role</button>
+  </div>
+
+  <div id="mainGame">
+    <div id="clueDisplayWord" class="clueWord"></div>
+    <div id="clueDisplayNumber" class="clueNumber"></div>
+    <div id="board"></div>
+    <div id="clueInput">
+      <input type="text" id="clueInputWord" class="clueWord" placeholder="hint">
+      <input type="number" id="clueInputNumber" class="clueNumber" placeholder="num" min="1" max="9">
+      <button id="submitClueButton" onclick="submitClue()">Submit Clue</button>
+    </div>
+    <button id="passButton" onclick="passTurn()">Pass Turn</button>
+  </div>
+
+  <div id="sidebar" class="sidebar">
+    <button id="sidebarButton" onclick="sidebar()">&times;</button>
+    <div id="sidebarContent" class="sidebarContent">
+      <div class="counters">
+        <div id="blueLeft"></div> <div id="redLeft"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+    let isSpymaster = false;
+    socket.emit("update")
+
+    socket.on("update", (gameState) => {
+      if (gameState.gameEnded){
+        document.querySelectorAll('body').forEach(script =>{
+        script.setAttribute('disabled', true);
+        });
+      }
+      updateCardsCount(gameState.blueCards, gameState.redCards);
+      showClueInput(gameState);
+      changeTurn(gameState.isBlueTurn);
+      renderBoard(gameState.gameBoard, gameState.moveCounter, gameState.gameEnded);
+    });
+
+    function changeRole() {
+      isSpymaster = !isSpymaster;
+      socket.emit("update")
+    }
+
+    function passTurn() {
+      socket.emit("turnPassed");
+    }
+
+    function submitClue(){
+      newClue = document.getElementById("clueInputWord").value;
+      clueNumber = document.getElementById("clueInputNumber").value;
+      document.getElementById("clueInputWord").value = "";
+      document.getElementById("clueInputNumber").value = "";
+      socket.emit("clueSubmit", newClue, clueNumber );
+    }
+
+    function showClueInput(gameState) {
+      const input = document.getElementById("clueInput");
+      const clueWord = document.getElementById("clueDisplayWord");
+      const clueNumber = document.getElementById("clueDisplayNumber");
+      const changeButton = document.getElementById("passButton");
+
+      clueWord.textContent = gameState.currentClue;
+      clueNumber.textContent = gameState.moveCounter;
+      if (isSpymaster) {
+        input.removeAttribute("hidden");
+        changeButton.setAttribute("hidden", true);
+      } else {
+        input.setAttribute("hidden", true);
+        changeButton.removeAttribute("hidden");
+      }
+    }
+
+    function updateCardsCount(blueCount, redCount) {
+      document.getElementById("blueLeft").textContent = blueCount;
+      document.getElementById("redLeft").textContent = redCount;
+    }
+
+    function changeTurn(isBlueTurn) {
+      if (isBlueTurn) {
+        document.body.classList.add("blueTurn");
+        document.body.classList.remove("redTurn");
+      } else {
+        document.body.classList.add("redTurn");
+        document.body.classList.remove("blueTurn");
+      }
+    }
+
+    function renderBoard(gameBoard, moveCounter, gameEnded) {
+      const board = document.getElementById('board');
+      board.innerHTML = '';
+      for (let i = 0; i < 25; i++) {
+        let gameCard = gameBoard[i];
+        const card = document.createElement("div");
+        card.className = "card";
+        card.textContent = gameCard.word;
+        if (gameCard.revealed || isSpymaster) {
+          card.classList.add(gameCard.color);
+        };
+        if (gameCard.revealed && isSpymaster) {
+          card.classList.add("revealed");
+        };
+
+        card.addEventListener("click", (event) => {
+          event.preventDefault();
+          if (!gameCard.revealed) {
+            card.classList.toggle("highlight");
+          }
+        });
+        if (!isSpymaster && !gameCard.revealed && moveCounter != null) {
+          card.addEventListener("dblclick", (event) => {
+            event.preventDefault();
+            socket.emit("revealCard", i);
+          });
+        }
+
+        board.appendChild(card);
+      }
+    }
+
+    function sidebar() {
+      document.getElementById("sidebar").classList.toggle("expanded");
+      document.getElementById("sidebarContent").classList.toggle("expanded");
+    }
+
+  </script>
+
+</body>
+
+</html>
