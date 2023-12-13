@@ -11,28 +11,28 @@
 
 <body>
 
-  <div id="counters">
-    <div id="blueLeft"></div>
-    <div id="redLeft"></div>
-  </div>
-
-  <div id="board"></div>
-  <div id="turnLabel"></div>
-
-  <div id="clueInput">
-    <input type="text" id="clueInputField" name="clueInput" placeholder="hint" readonly>
-    <input type="number" id="clueInputNumber" name="clueNumber" placeholder="num" min="1" max="9" readonly>
-    <button id="submitClueButton" onclick="submitClue()" hidden>Submit Clue</button>
-  </div>
-
-  <div id="passSection">
-    <button id="passButton" onclick="passTurn()">Pass Turn</button>
-  </div>
-
   <div id="roleChangeSection">
     <button id="changeRoleButton" onclick="changeRole()">Change Role</button>
   </div>
 
+  <section id="mainGame">
+    <div id="clueInput">
+      <input type="text" id="clueInputField" name="clueInput" placeholder="hint" readonly>
+      <input type="number" id="clueInputNumber" name="clueNumber" placeholder="num" min="1" max="9" readonly>
+      <button id="submitClueButton" onclick="submitClue()" hidden>Submit Clue</button>
+    </div>
+    <div id="board"></div>
+    <button id="passButton" onclick="passTurn()">Pass Turn</button>
+  </section>
+
+  <div id="sidebar" class="sidebar">
+    <button id="sidebarButton" onclick="sidebar()">&times;</button>
+    <div id="sidebarContent" class="sidebarContent">
+      <div class="counters">
+        <div id="blueLeft"></div> <div id="redLeft"></div>
+      </div>
+    </div>
+  </div>
 
   <script src="/socket.io/socket.io.js"></script>
   <script>
@@ -90,13 +90,12 @@
     }
 
     function changeTurn(isBlueTurn) {
-      const label = document.getElementById("turnLabel");
       if (isBlueTurn) {
-        label.classList.add("blueTurn");
-        label.classList.remove("redTurn");
+        document.body.classList.add("blueTurn");
+        document.body.classList.remove("redTurn");
       } else {
-        label.classList.add("redTurn");
-        label.classList.remove("blueTurn");
+        document.body.classList.add("redTurn");
+        document.body.classList.remove("blueTurn");
       }
     }
 
@@ -132,6 +131,12 @@
         board.appendChild(card);
       }
     }
+
+    function sidebar() {
+      document.getElementById("sidebar").classList.toggle("expanded");
+      document.getElementById("sidebarContent").classList.toggle("expanded");
+    }
+
   </script>
 
 </body>
