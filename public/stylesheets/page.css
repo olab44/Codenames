@@ -40,7 +40,7 @@ body.redTurn {
   width: 20vh;
   height: 15vh;
   border: 1px solid black;
-  background-color: white;
+  background-color: #ffffee;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -49,21 +49,26 @@ body.redTurn {
 }
 .card.red {
   background-color: #ff6060;
+  background: radial-gradient(circle, #ff0000 0%, #700000 100%);
 }
 .card.blue {
   background-color: #6060ff;
+  background: radial-gradient(circle, #015be2 0%, #000053 100%);
 }
 .card.yellow {
   background-color: #ffff60;
+  background: radial-gradient(circle, #ffff00 0%, #888800 100%);
 }
 .card.black {
+  color: whitesmoke;
   background-color: #303030;
+  background: radial-gradient(circle, #303030 0%, #000000 100%);
 }
 .card.highlight {
   border-width: 3px;
 }
 .card.revealed {
-  opacity: 0.25;
+  opacity: 0.6;
 }
 
 .clueWord, .clueNumber {
