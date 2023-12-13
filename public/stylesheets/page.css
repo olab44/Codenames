@@ -24,32 +24,8 @@ body.redTurn {
 
 #mainGame {
   position: relative;
-}
-
-#clueInput {
-  position: absolute;
-  display: inline;
-  top: -5vh;
-  left: 5px;
-}
-
-#clueInput input[type="text"] {
-  width: 70vh;
-  height: 5vh;
-}
-#clueInput input[type="number"]  {
-  width: 9vh;
-  height: 5vh;
-}
-#submitClueButton {
-  width: 20vh;
-  height: 5vh;
-  margin-left: 3px;
-  background-color: #158b19;
-  color: black;
-  border: 2px;
-  border-radius: 5px;
-  cursor: pointer;
+  text-align: center;
+  margin-top: -5vh;
 }
 
 #board {
@@ -58,7 +34,7 @@ body.redTurn {
   grid-gap: 5px;
   background-color: white;
   padding: 5px;
-  margin-top: 10px;
+  margin-top: 5px;
 }
 .card {
   box-sizing: border-box;
@@ -90,13 +66,48 @@ body.redTurn {
   opacity: 0.25;
 }
 
-#passButton {
+.clueWord, .clueNumber {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  vertical-align: top;
+  height: 5vh;
+  background-color: field;
+}
+.clueWord {
+  width: 70vh;
+}
+.clueNumber {
+  width: 9vh;
+}
+
+#clueInput {
   position: absolute;
-  right: 5px;
+  display: inline;
+  left: 5px;
+  margin-top: 5px;
+}
+#submitClueButton {
   width: 20vh;
   height: 5vh;
-  margin-top: 5px;
+  margin-left: 4px;
+  margin-top: 3px;
+  background-color: #158b19;
+  color: black;
+  border: 2px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+#clueInput[hidden] {
+  display: none;
+}
 
+#passButton {
+  position: absolute;
+  right: 4px;
+  width: 20vh;
+  height: 5vh;
+  margin-top: 8px;
   background-color: #158b19;
   color: black;
   border: 2px;

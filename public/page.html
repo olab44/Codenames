@@ -15,15 +15,17 @@
     <button id="changeRoleButton" onclick="changeRole()">Change Role</button>
   </div>
 
-  <section id="mainGame">
-    <div id="clueInput">
-      <input type="text" id="clueInputField" name="clueInput" placeholder="hint" readonly>
-      <input type="number" id="clueInputNumber" name="clueNumber" placeholder="num" min="1" max="9" readonly>
-      <button id="submitClueButton" onclick="submitClue()" hidden>Submit Clue</button>
-    </div>
+  <div id="mainGame">
+    <div id="clueDisplayWord" class="clueWord"></div>
+    <div id="clueDisplayNumber" class="clueNumber"></div>
     <div id="board"></div>
+    <div id="clueInput">
+      <input type="text" id="clueInputWord" class="clueWord" placeholder="hint">
+      <input type="number" id="clueInputNumber" class="clueNumber" placeholder="num" min="1" max="9">
+      <button id="submitClueButton" onclick="submitClue()">Submit Clue</button>
+    </div>
     <button id="passButton" onclick="passTurn()">Pass Turn</button>
-  </section>
+  </div>
 
   <div id="sidebar" class="sidebar">
     <button id="sidebarButton" onclick="sidebar()">&times;</button>
@@ -47,7 +49,7 @@
         });
       }
       updateCardsCount(gameState.blueCards, gameState.redCards);
-      showClueInput(gameState)
+      showClueInput(gameState);
       changeTurn(gameState.isBlueTurn);
       renderBoard(gameState.gameBoard, gameState.moveCounter, gameState.gameEnded);
     });
@@ -62,29 +64,26 @@
     }
 
     function submitClue(){
-      newClue = document.getElementById("clueInputField").value;
+      newClue = document.getElementById("clueInputWord").value;
       clueNumber = document.getElementById("clueInputNumber").value;
+      document.getElementById("clueInputWord").value = "";
+      document.getElementById("clueInputNumber").value = "";
       socket.emit("clueSubmit", newClue, clueNumber );
     }
 
     function showClueInput(gameState) {
       const input = document.getElementById("clueInput");
-      const clueInputField = document.getElementById("clueInputField");
-      const clueInputNumber = document.getElementById("clueInputNumber");
-      const submitClueButton = document.getElementById("submitClueButton");
+      const clueWord = document.getElementById("clueDisplayWord");
+      const clueNumber = document.getElementById("clueDisplayNumber");
       const changeButton = document.getElementById("passButton");
 
-      clueInputField.value = gameState.currentClue;
-      clueInputNumber.value = gameState.moveCounter;
+      clueWord.textContent = gameState.currentClue;
+      clueNumber.textContent = gameState.moveCounter;
       if (isSpymaster) {
-        clueInputField.removeAttribute("readonly");
-        clueInputNumber.removeAttribute("readonly");
-        submitClueButton.removeAttribute("hidden");
+        input.removeAttribute("hidden");
         changeButton.setAttribute("hidden", true);
       } else {
-        clueInputField.setAttribute("readonly", true);
-        clueInputNumber.setAttribute("readonly", true);
-        submitClueButton.setAttribute("hidden", true);
+        input.setAttribute("hidden", true);
         changeButton.removeAttribute("hidden");
       }
     }
