@@ -20,10 +20,14 @@
     <div id="clueDisplayNumber" class="clueNumber"></div>
     <div id="board"></div>
     <div id="clueInput">
-      <input type="text" id="clueInputWord" class="clueWord" placeholder="hint">
-      <input type="number" id="clueInputNumber" class="clueNumber" placeholder="num" min="1" max="9">
+      <input type="text" id="clueInputWord" class="clueWord" placeholder="hint" required
+            oninvalid="this.setCustomValidity('Cannot be left blank')"
+            oninput="this.setCustomValidity('')">
+      <input type="number" id="clueInputNumber" class="clueNumber" placeholder="num" min="1" max="9" required
+            oninvalid="this.setCustomValidity('Cannot be left blank')"
+            oninput="this.setCustomValidity('')">
       <button id="submitClueButton" onclick="submitClue()">Submit Clue</button>
-    </div>
+  </div>
     <button id="passButton" onclick="passTurn()">Pass Turn</button>
   </div>
 
@@ -56,7 +60,7 @@
 
     function changeRole() {
       isSpymaster = !isSpymaster;
-      socket.emit("update")
+      socket.emit("update");
     }
 
     function passTurn() {
@@ -65,11 +69,13 @@
 
     function submitClue(){
       newClue = document.getElementById("clueInputWord").value;
-      clueNumber = document.getElementById("clueInputNumber").value;
-      document.getElementById("clueInputWord").value = "";
-      document.getElementById("clueInputNumber").value = "";
-      socket.emit("clueSubmit", newClue, clueNumber );
-    }
+      clueNumber = document.getElementById("clueInputNumber").valueAsNumber;
+      if (validateClue(newClue, clueNumber)) {
+        document.getElementById("clueInputWord").value = "";
+        document.getElementById("clueInputNumber").value = "";
+        socket.emit("clueSubmit", newClue, clueNumber );
+      }
+      }
 
     function showClueInput(gameState) {
       const input = document.getElementById("clueInput");
@@ -140,6 +146,15 @@
       document.getElementById("sidebarContent").classList.toggle("expanded");
     }
 
+    function validateClue(clueWord, clueNumber) {
+      if (!(clueNumber >= 0 && clueNumber <= 9)) { return false; }
+      if (!(/^[a-zA-Z]+$/.test(clueWord))) { return false; }
+      let invalidFound = false;
+      Array.from(document.getElementsByClassName("card")).forEach(function(card) {
+        if (card.textContent.toLowerCase() === clueWord.toLowerCase()) { invalidFound = true; }
+      })
+      return !invalidFound;
+    }
   </script>
 
 </body>
