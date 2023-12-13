@@ -31,7 +31,7 @@ io.on("connection", (socket) => {
   console.log("Welcome to the game!");
 
   socket.on("update", () => {
-    socket.emit("update", gameState);
+    io.emit("update", gameState);
   });
 
   socket.on("turnPassed", () =>{
@@ -65,12 +65,13 @@ io.on("connection", (socket) => {
         break;
       case "black":
         console.log("END GAME");
+        gameEnded = true;
         break;
     }
     if (shouldChangeTurn || --gameState.moveCounter == 0) { changeTurn(); }
 
-    if (gameState.blueCards == 0) { console.log("BLUE WIN"); }
-    if (gameState.redCards == 0) { console.log("RED WIN"); }
+    if (gameState.blueCards == 0) { gameEnded = true; console.log("BLUE WIN"); }
+    if (gameState.redCards == 0) { gameEnded = true; console.log("RED WIN"); }
 
     io.emit("update", gameState);
   });
