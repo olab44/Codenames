@@ -69,8 +69,10 @@ io.on("connection", (socket) => {
         break;
     }
     if (shouldChangeTurn || --gameState.moveCounter == 0) { changeTurn(); }
-
-    if (gameState.blueCards == 0) { gameEnded = true; console.log("BLUE WIN"); }
+    if (gameState.blueCards == 0) { 
+      gameEnded = true; 
+      console.log("BLUE WIN"); 
+    }
     if (gameState.redCards == 0) { gameEnded = true; console.log("RED WIN"); }
 
     io.emit("update", gameState);

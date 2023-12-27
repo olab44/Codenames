@@ -47,11 +47,13 @@
     socket.emit("update")
 
     socket.on("update", (gameState) => {
+
       if (gameState.gameEnded){
         document.querySelectorAll('body').forEach(script =>{
         script.setAttribute('disabled', true);
         });
       }
+
       updateCardsCount(gameState.blueCards, gameState.redCards);
       showClueInput(gameState);
       changeTurn(gameState.isBlueTurn);
