@@ -103,6 +103,7 @@ body.redTurn {
   border-radius: 5px;
   cursor: pointer;
 }
+
 #clueInput[hidden] {
   display: none;
 }

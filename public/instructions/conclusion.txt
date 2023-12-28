@@ -1,1 +1,3 @@
-Gra konczy się gdy ...
+Gra kończy się, gdy jedna drużyna zasłoni wszystkie swoje słowa. Ta drużyna zwycięża.
+Można wygrać podczas tury drugiej drużyny, jeśli jej przedstawiciele zgadną Wasze ostatnie słowo.
+Gra może też zakończyć się wcześniej, gdy tajniak skontaktuje się z zabójcą. Drużyna tego tajniaka przegrywa.

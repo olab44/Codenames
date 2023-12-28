@@ -34,8 +34,17 @@ img {
 }
 
 .gameMenu button {
+    margin: auto;
     width: 20%;
     min-width: fit-content;
     height: 50px;
     font-size: larger;
+}
+
+.Instruction button {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: white;
+    border: 3px solid #ccc;
+    border-radius: 5px;
 }

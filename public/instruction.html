@@ -10,9 +10,12 @@
 <body>
     <img src="images/logo.png">
     <button id="inst" onclick="location.href='menu.html'">Back to menu</button>
-    <h1>Instruction</h1>
     <div class="gameMenu" id="instructionsContainer">
-        <div id="section1"></div>
+        <h1>Instruction</h1>
+        <div id="Preparation">
+            <div id="Teams"></div>
+            <div id="Login"></div>
+        </div>
         <div id="section2"></div>
         <div id="section3"></div>
     </div>
@@ -36,7 +39,7 @@
                 })
                 .catch(error => console.error('Error fetching content:', error));
         }
-        fetchAndDisplayContent('Przygotowanie', 'instructions/preparation.txt', 'section1');
+        fetchAndDisplayContent('Przygotowanie', 'instructions/preparation.md', 'section1');
         fetchAndDisplayContent('Rozgrywka', 'instructions/gameplay.txt', 'section2');
         fetchAndDisplayContent('Zakończenie', 'instructions/conclusion.txt', 'section3');
     </script>

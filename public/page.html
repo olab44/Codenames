@@ -27,6 +27,7 @@
             oninvalid="this.setCustomValidity('Cannot be left blank')"
             oninput="this.setCustomValidity('')">
       <button id="submitClueButton" onclick="submitClue()">Submit Clue</button>
+      <span id="cluevalidity"></span>
   </div>
     <button id="passButton" onclick="passTurn()">Pass Turn</button>
   </div>
@@ -69,15 +70,29 @@
       socket.emit("turnPassed");
     }
 
-    function submitClue(){
-      newClue = document.getElementById("clueInputWord").value;
-      clueNumber = document.getElementById("clueInputNumber").valueAsNumber;
+    // function submitClue(){
+    //   newClue = document.getElementById("clueInputWord").value;
+    //   clueNumber = document.getElementById("clueInputNumber").valueAsNumber;
+    //   if (validateClue(newClue, clueNumber)) {
+    //     document.getElementById("clueInputWord").value = "";
+    //     document.getElementById("clueInputNumber").value = "";
+    //     socket.emit("clueSubmit", newClue, clueNumber );
+    //   }
+    // }
+    function submitClue() {
+      const newClue = document.getElementById("clueInputWord").value;
+      const clueNumber = document.getElementById("clueInputNumber").valueAsNumber;
+      const clueMessage = document.getElementById("cluevalidity");
+
       if (validateClue(newClue, clueNumber)) {
         document.getElementById("clueInputWord").value = "";
         document.getElementById("clueInputNumber").value = "";
-        socket.emit("clueSubmit", newClue, clueNumber );
+        clueMessage.textContent = "";
+        socket.emit("clueSubmit", newClue, clueNumber);
+      } else {
+        clueMessage.textContent = "Niepoprawne, spróbuj jeszcze raz";
       }
-      }
+    }
 
     function showClueInput(gameState) {
       const input = document.getElementById("clueInput");
@@ -153,7 +168,9 @@
       if (!(/^[a-zA-Z]+$/.test(clueWord))) { return false; }
       let invalidFound = false;
       Array.from(document.getElementsByClassName("card")).forEach(function(card) {
-        if (card.textContent.toLowerCase() === clueWord.toLowerCase()) { invalidFound = true; }
+        if (card.textContent.toLowerCase() === clueWord.toLowerCase() || card.textContent.toLowerCase().includes(clueWord.toLowerCase())) { 
+          invalidFound = true; 
+        }
       })
       return !invalidFound;
     }
