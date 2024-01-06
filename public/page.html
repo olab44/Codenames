@@ -50,16 +50,29 @@
     socket.on("update", (gameState) => {
 
       if (gameState.gameEnded){
-        document.querySelectorAll('body').forEach(script =>{
-        script.setAttribute('disabled', true);
-        });
+        endGame();
       }
-
       updateCardsCount(gameState.blueCards, gameState.redCards);
       showClueInput(gameState);
       changeTurn(gameState.isBlueTurn);
       renderBoard(gameState.gameBoard, gameState.moveCounter, gameState.gameEnded);
-    });
+  });
+
+
+  function endGame() {
+    document.getElementById('clueInputWord').readOnly = true;
+    document.getElementById('clueInputNumber').readOnly = true;
+    document.getElementById('submitClueButton').disabled = true;
+    document.getElementById('passButton').disabled = true;
+
+    gameState.moveCounter = 1;
+    const cards = document.getElementsByClassName('card');
+    for (let card of cards) {
+      card.classList.add("revealed");
+      card.removeEventListener('click', handleCardClick);
+      card.removeEventListener('dblclick', handleCardDoubleClick);
+    }
+  }
 
     function changeRole() {
       isSpymaster = !isSpymaster;
@@ -70,15 +83,6 @@
       socket.emit("turnPassed");
     }
 
-    // function submitClue(){
-    //   newClue = document.getElementById("clueInputWord").value;
-    //   clueNumber = document.getElementById("clueInputNumber").valueAsNumber;
-    //   if (validateClue(newClue, clueNumber)) {
-    //     document.getElementById("clueInputWord").value = "";
-    //     document.getElementById("clueInputNumber").value = "";
-    //     socket.emit("clueSubmit", newClue, clueNumber );
-    //   }
-    // }
     function submitClue() {
       const newClue = document.getElementById("clueInputWord").value;
       const clueNumber = document.getElementById("clueInputNumber").valueAsNumber;
@@ -129,34 +133,38 @@
     function renderBoard(gameBoard, moveCounter, gameEnded) {
       const board = document.getElementById('board');
       board.innerHTML = '';
+
       for (let i = 0; i < 25; i++) {
         let gameCard = gameBoard[i];
         const card = document.createElement("div");
         card.className = "card";
         card.textContent = gameCard.word;
-        if (gameCard.revealed || isSpymaster) {
-          card.classList.add(gameCard.color);
-        };
-        if (gameCard.revealed && isSpymaster) {
-          card.classList.add("revealed");
-        };
 
-        card.addEventListener("click", (event) => {
-          event.preventDefault();
-          if (!gameCard.revealed) {
-            card.classList.toggle("highlight");
-          }
-        });
-        if (!isSpymaster && !gameCard.revealed && moveCounter != null) {
-          card.addEventListener("dblclick", (event) => {
-            event.preventDefault();
-            socket.emit("revealCard", i);
-          });
-        }
-
-        board.appendChild(card);
+      if (gameCard.revealed || isSpymaster) {
+        card.classList.add(gameCard.color);
       }
+
+    if (gameCard.revealed && isSpymaster) {
+      card.classList.add("revealed");
     }
+
+    card.addEventListener("click", (event) => {
+      event.preventDefault();
+      if (!gameCard.revealed && !gameEnded) {
+        card.classList.toggle("highlight");
+      }
+    });
+
+    if (!isSpymaster && !gameCard.revealed && moveCounter != null) {
+      card.addEventListener("dblclick", (event) => {
+        event.preventDefault();
+        socket.emit("revealCard", i);
+      });
+    }
+
+    board.appendChild(card);
+    }
+  }
 
     function sidebar() {
       document.getElementById("sidebar").classList.toggle("expanded");
@@ -174,6 +182,7 @@
       })
       return !invalidFound;
     }
+
   </script>
 
 </body>

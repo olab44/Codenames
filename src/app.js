@@ -34,7 +34,7 @@ io.on("connection", (socket) => {
     io.emit("update", gameState);
   });
 
-  socket.on("turnPassed", () =>{
+  socket.on("turnPassed", () => {
     changeTurn();
     io.emit("update", gameState);
   });
@@ -66,17 +66,32 @@ io.on("connection", (socket) => {
       case "black":
         console.log("END GAME");
         gameEnded = true;
+        endGame();
+        io.emit("update", gameState);
         break;
     }
-    if (shouldChangeTurn || --gameState.moveCounter == 0) { changeTurn(); }
-    if (gameState.blueCards == 0) { 
-      gameEnded = true; 
-      console.log("BLUE WIN"); 
+
+    if (shouldChangeTurn || --gameState.moveCounter == 0 || gameState.blueCards === 0 || gameState.redCards === 0) {
+      changeTurn();
     }
-    if (gameState.redCards == 0) { gameEnded = true; console.log("RED WIN"); }
+
+    if (gameState.blueCards === 0) { 
+      gameEnded = true; 
+      console.log("BLUE WIN");
+      endGame();
+      io.emit("update", gameState);
+    }
+
+    if (gameState.redCards === 0) {
+      gameEnded = true;
+      console.log("RED WIN");
+      endGame();
+      io.emit("update", gameState);
+    }
 
     io.emit("update", gameState);
   });
+
 });
 
 function changeTurn() {
@@ -85,6 +100,16 @@ function changeTurn() {
   gameState.moveCounter = null;
 }
 
+function endGame() {
+  gameState.moveCounter = 1;
+  revealAllCards();
+}
+
+function revealAllCards() {
+  for (let i = 0; i < 25; i++) {
+    gameState.gameBoard[i].revealed = true;
+  }
+}
 
 const PORT = 3000;
 server.listen(PORT, "0.0.0.0", () => {
