@@ -67,7 +67,7 @@ io.on("connection", (socket) => {
         console.log("END GAME");
         gameEnded = true;
         endGame();
-        io.emit("update", gameState);
+        io.emit("gameEnded", gameState);
         break;
     }
 
@@ -79,14 +79,14 @@ io.on("connection", (socket) => {
       gameEnded = true; 
       console.log("BLUE WIN");
       endGame();
-      io.emit("update", gameState);
+      io.emit("gameEnded", gameState);
     }
 
     if (gameState.redCards === 0) {
       gameEnded = true;
       console.log("RED WIN");
       endGame();
-      io.emit("update", gameState);
+      io.emit("gameEnded", gameState);
     }
 
     io.emit("update", gameState);
@@ -102,7 +102,7 @@ function changeTurn() {
 
 function endGame() {
   gameState.moveCounter = 1;
-  revealAllCards();
+  // revealAllCards();
 }
 
 function revealAllCards() {

@@ -58,6 +58,10 @@
       renderBoard(gameState.gameBoard, gameState.moveCounter, gameState.gameEnded);
   });
 
+  socket.on("gameEnded", (gameState) => {
+    endGame();
+  });
+
 
   function endGame() {
     document.getElementById('clueInputWord').readOnly = true;
