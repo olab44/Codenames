@@ -34,7 +34,7 @@
 
   <div id="endGameBox" hidden>
     <p>The game has ended</p>
-    <p>winner: </p>
+    <p id="winner">winner: </p>
     <button id="revealBoardButton" onclick="revealAllCards()">Reveal the board</button>
     <button id="newGameButton" onclick="playNewGame()"> Start new game</button>
   </div>
@@ -89,10 +89,13 @@
       reds.scrollTop = reds.scrollHeight;
     }
 
-    socket.on("gameEnded", (gameState) => { endGame(); });
+    socket.on("gameEnded", (winner) => { endGame(winner); });
+    
+    socket.on("newGame", () => { playNewGame(); });
 
-    function endGame() {
+    function endGame(winner) {
       document.getElementById('endGameBox').removeAttribute("hidden");
+      document.getElementById('winner').innerText = "Winner: " + winner;
       dragElement(document.getElementById("endGameBox"));
       document.getElementById('clueInputWord').readOnly = true;
       document.getElementById('clueInputNumber').readOnly = true;
@@ -104,6 +107,10 @@
     }
 
     function revealAllCards() { socket.emit("revealBoard"); }
+
+    function playNewGame(){
+      socket.emit("newGame");
+    }
 
     function changeRole() {
       isSpymaster = !isSpymaster;

@@ -77,10 +77,11 @@ io.on("connection", (socket) => {
         shouldChangeTurn = true;
         break;
       case "black":
-        console.log("END GAME");
+        let winner = (gameState.isBlueTurn === true) ? "RED" : "BLUE";
+        console.log(winner + " WIN");
         gameEnded = true;
         gameState.moveCounter = 1;
-        io.emit("gameEnded", gameState);
+        io.emit("gameEnded", winner);
         break;
     }
 
@@ -92,14 +93,14 @@ io.on("connection", (socket) => {
       gameEnded = true;
       console.log("BLUE WIN");
       gameState.moveCounter = 1;
-      io.emit("gameEnded", gameState);
+      io.emit("gameEnded", "BLUE");
     }
 
     if (gameState.redCards === 0) {
       gameEnded = true;
       console.log("RED WIN");
       gameState.moveCounter = 1;
-      io.emit("gameEnded", gameState);
+      io.emit("gameEnded", "RED");
     }
 
     io.emit("update", gameState);
