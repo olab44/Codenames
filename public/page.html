@@ -43,7 +43,12 @@
     <button id="sidebarButton" onclick="sidebar()">&times;</button>
     <div id="sidebarContent" class="sidebarContent">
       <div class="counters">
-        <div id="blueLeft"></div> <div id="redLeft"></div>
+        <div class="blueText" id="blueLeft"></div>
+        <div class="redText" id="redLeft"></div>
+      </div>
+      <div class="history">
+        <div id="blueHistory"></div>
+        <div id="redHistory"></div>
       </div>
     </div>
   </div>
@@ -55,51 +60,61 @@
     socket.emit("update")
 
     socket.on("update", (gameState) => {
-
-      if (gameState.gameEnded){
-        endGame();
-      }
+      if (gameState.gameEnded) { endGame(); }
       updateCardsCount(gameState.blueCards, gameState.redCards);
       showClueInput(gameState);
       changeTurn(gameState.isBlueTurn);
       renderBoard(gameState.gameBoard, gameState.moveCounter, gameState.gameEnded);
-  });
+      updateClueHistory(gameState.blueHistory, gameState.redHistory);
+    });
 
-  socket.on("gameEnded", (gameState) => {
-    endGame();
-  });
+    function updateClueHistory(blueHistory, redHistory) {
+      const blues = document.getElementById('blueHistory');
+      blues.innerHTML = '';
+      const reds = document.getElementById('redHistory');
+      reds.innerHTML = '';
+      for (const clue of blueHistory) {
+        const clueDiv = document.createElement("div");
+        clueDiv.className = "blueText";
+        clueDiv.textContent = clue;
+        blues.appendChild(clueDiv);
+      }
+      for (const clue of redHistory) {
+        const clueDiv = document.createElement("div");
+        clueDiv.className = "redText";
+        clueDiv.textContent = clue;
+        reds.appendChild(clueDiv);
+      }
+      blues.scrollTop = blues.scrollHeight;
+      reds.scrollTop = reds.scrollHeight;
+    }
 
+    socket.on("gameEnded", (gameState) => { endGame(); });
 
-  function endGame() {
-    document.getElementById('endGameBox').removeAttribute("hidden");
-    dragElement(document.getElementById("endGameBox"));
-    document.getElementById('clueInputWord').readOnly = true;
-    document.getElementById('clueInputNumber').readOnly = true;
-    document.getElementById('submitClueButton').disabled = true;
-    document.getElementById('passButton').disabled = true;
+    function endGame() {
+      document.getElementById('endGameBox').removeAttribute("hidden");
+      dragElement(document.getElementById("endGameBox"));
+      document.getElementById('clueInputWord').readOnly = true;
+      document.getElementById('clueInputNumber').readOnly = true;
+      document.getElementById('submitClueButton').disabled = true;
+      document.getElementById('passButton').disabled = true;
 
-    gameState.moveCounter = 1;
-    const cards = document.getElementsByClassName('card');
-  }
+      gameState.moveCounter = 1;
+      const cards = document.getElementsByClassName('card');
+    }
 
-  function revealAllCards() {
-    socket.emit("revealBoard");
-  }
+    function revealAllCards() { socket.emit("revealBoard"); }
 
-  function playNewGame(){
-    socket.emit("newGame");
-  }
-
-  function changeRole() {
+    function changeRole() {
       isSpymaster = !isSpymaster;
       socket.emit("update");
     }
 
-  function passTurn() {
+    function passTurn() {
       socket.emit("turnPassed");
     }
 
-  function submitClue() {
+    function submitClue() {
       const newClue = document.getElementById("clueInputWord").value;
       const clueNumber = document.getElementById("clueInputNumber").valueAsNumber;
       const clueMessage = document.getElementById("cluevalidity");
@@ -160,27 +175,27 @@
         card.classList.add(gameCard.color);
       }
 
-    if (gameCard.revealed && isSpymaster) {
-      card.classList.add("revealed");
-    }
-
-    card.addEventListener("click", (event) => {
-      event.preventDefault();
-      if (!gameCard.revealed) {
-        card.classList.toggle("highlight");
+      if (gameCard.revealed && isSpymaster) {
+        card.classList.add("revealed");
       }
-    });
 
-    if (!isSpymaster && !gameCard.revealed && moveCounter != null) {
-      card.addEventListener("dblclick", (event) => {
+      card.addEventListener("click", (event) => {
         event.preventDefault();
-        socket.emit("revealCard", i);
+        if (!gameCard.revealed) {
+          card.classList.toggle("highlight");
+        }
       });
-    }
 
-    board.appendChild(card);
+      if (!isSpymaster && !gameCard.revealed && moveCounter != null) {
+        card.addEventListener("dblclick", (event) => {
+          event.preventDefault();
+          socket.emit("revealCard", i);
+        });
+      }
+
+      board.appendChild(card);
+      }
     }
-  }
 
     function sidebar() {
       document.getElementById("sidebar").classList.toggle("expanded");
@@ -192,8 +207,8 @@
       if (!(/^[a-zA-Z]+$/.test(clueWord))) { return false; }
       let invalidFound = false;
       Array.from(document.getElementsByClassName("card")).forEach(function(card) {
-        if (card.textContent.toLowerCase() === clueWord.toLowerCase() || card.textContent.toLowerCase().includes(clueWord.toLowerCase())) { 
-          invalidFound = true; 
+        if (clueWord.toLowerCase().includes(card.textContent.toLowerCase()) || card.textContent.toLowerCase().includes(clueWord.toLowerCase())) {
+          invalidFound = true;
         }
       })
       return !invalidFound;
@@ -207,42 +222,41 @@
         elmnt.onmousedown = dragMouseDown;
       }
 
-  function dragMouseDown(e) {
-    e = e || window.event;
-    e.preventDefault();
-    pos3 = e.clientX;
-    pos4 = e.clientY;
-    document.onmouseup = closeDragElement;
-    document.onmousemove = elementDrag;
+    function dragMouseDown(e) {
+      e = e || window.event;
+      e.preventDefault();
+      pos3 = e.clientX;
+      pos4 = e.clientY;
+      document.onmouseup = closeDragElement;
+      document.onmousemove = elementDrag;
+    }
+
+    function elementDrag(e) {
+      e = e || window.event;
+      e.preventDefault();
+      pos1 = pos3 - e.clientX;
+      pos2 = pos4 - e.clientY;
+      pos3 = e.clientX;
+      pos4 = e.clientY;
+      elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+      elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+    }
+
+    function closeDragElement() {
+      document.onmouseup = null;
+      document.onmousemove = null;
+    }
   }
 
-  function elementDrag(e) {
-    e = e || window.event;
-    e.preventDefault();
-    pos1 = pos3 - e.clientX;
-    pos2 = pos4 - e.clientY;
-    pos3 = e.clientX;
-    pos4 = e.clientY;
-    elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-    elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-  }
+    function minimizeEndGameBox() {
+      const endGameBox = document.getElementById("endGameBox");
+      endGameBox.style.display = "none";
+    }
 
-  function closeDragElement() {
-    document.onmouseup = null;
-    document.onmousemove = null;
-  }
-}
-
-  function minimizeEndGameBox() {
-    const endGameBox = document.getElementById("endGameBox");
-    endGameBox.style.display = "none";
-  }
-
-  function closeEndGameBox() {
-    const endGameBox = document.getElementById("endGameBox");
-    endGameBox.style.display = "none";
-  }
-
+    function closeEndGameBox() {
+      const endGameBox = document.getElementById("endGameBox");
+      endGameBox.style.display = "none";
+    }
 
   </script>
 

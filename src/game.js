@@ -10,6 +10,8 @@ class GameState {
         this.moveCounter = null;
         this.currentClue = "";
         this.gameEnded = false;
+        this.blueHistory = [];
+        this.redHistory = [];
     }
 
     async initializeGame() {

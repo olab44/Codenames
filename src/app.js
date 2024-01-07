@@ -33,7 +33,7 @@ io.on("connection", (socket) => {
   socket.on("update", () => {
     io.emit("update", gameState);
   });
-  
+
   socket.on("turnPassed", () => {
     changeTurn();
     io.emit("update", gameState);
@@ -42,6 +42,8 @@ io.on("connection", (socket) => {
   socket.on("clueSubmit", (newClue, clueNumber) => {
     gameState.currentClue = newClue;
     gameState.moveCounter = clueNumber;
+    if (gameState.isBlueTurn) { gameState.blueHistory.push(newClue + " " + clueNumber); }
+    else { gameState.redHistory.push(newClue + " " + clueNumber); }
     io.emit("update", gameState);
   });
 
@@ -86,8 +88,8 @@ io.on("connection", (socket) => {
       changeTurn();
     }
 
-    if (gameState.blueCards === 0) { 
-      gameEnded = true; 
+    if (gameState.blueCards === 0) {
+      gameEnded = true;
       console.log("BLUE WIN");
       gameState.moveCounter = 1;
       io.emit("gameEnded", gameState);
