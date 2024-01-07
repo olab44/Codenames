@@ -90,8 +90,14 @@
     }
 
     socket.on("gameEnded", (winner) => { endGame(winner); });
-    
-    socket.on("newGame", () => { playNewGame(); });
+
+    socket.on("newGame", () => {
+      document.getElementById('endGameBox').setAttribute("hidden", true);
+      document.getElementById('clueInputWord').readOnly = false;
+      document.getElementById('clueInputNumber').readOnly = false;
+      document.getElementById('submitClueButton').disabled = false;
+      document.getElementById('passButton').disabled = false;
+    })
 
     function endGame(winner) {
       document.getElementById('endGameBox').removeAttribute("hidden");
