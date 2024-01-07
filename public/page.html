@@ -79,23 +79,23 @@
 
     gameState.moveCounter = 1;
     const cards = document.getElementsByClassName('card');
-    for (let card of cards) {
-      card.classList.add("revealed");
-      card.removeEventListener('click', handleCardClick);
-      card.removeEventListener('dblclick', handleCardDoubleClick);
-    }
   }
 
-    function changeRole() {
+  function revealAllCards() {
+    socket.emit("revealBoard");
+  }
+
+
+  function changeRole() {
       isSpymaster = !isSpymaster;
       socket.emit("update");
     }
 
-    function passTurn() {
+  function passTurn() {
       socket.emit("turnPassed");
     }
 
-    function submitClue() {
+  function submitClue() {
       const newClue = document.getElementById("clueInputWord").value;
       const clueNumber = document.getElementById("clueInputNumber").valueAsNumber;
       const clueMessage = document.getElementById("cluevalidity");
@@ -142,7 +142,7 @@
       }
     }
 
-    function renderBoard(gameBoard, moveCounter, gameEnded) {
+    function renderBoard(gameBoard, moveCounter) {
       const board = document.getElementById('board');
       board.innerHTML = '';
 
@@ -162,7 +162,7 @@
 
     card.addEventListener("click", (event) => {
       event.preventDefault();
-      if (!gameCard.revealed && !gameEnded) {
+      if (!gameCard.revealed) {
         card.classList.toggle("highlight");
       }
     });
@@ -194,13 +194,14 @@
       })
       return !invalidFound;
     }
+
     function dragElement(elmnt) {
-  var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-  if (document.getElementById(elmnt.id + "Header")) {
-    document.getElementById(elmnt.id + "Header").onmousedown = dragMouseDown;
-  } else {
-    elmnt.onmousedown = dragMouseDown;
-  }
+      var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+      if (document.getElementById(elmnt.id + "Header")) {
+        document.getElementById(elmnt.id + "Header").onmousedown = dragMouseDown;
+      } else {
+        elmnt.onmousedown = dragMouseDown;
+      }
 
   function dragMouseDown(e) {
     e = e || window.event;
@@ -227,6 +228,17 @@
     document.onmousemove = null;
   }
 }
+
+  function minimizeEndGameBox() {
+    const endGameBox = document.getElementById("endGameBox");
+    endGameBox.style.display = "none";
+  }
+
+  function closeEndGameBox() {
+    const endGameBox = document.getElementById("endGameBox");
+    endGameBox.style.display = "none";
+  }
+
 
   </script>
 

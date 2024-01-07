@@ -45,6 +45,11 @@ io.on("connection", (socket) => {
     io.emit("update", gameState);
   });
 
+  socket.on("revealBoard", ()=> {
+    revealAllCards();
+    io.emit("update", gameState);
+  })
+
   socket.on("revealCard", (index) => {
     const card = gameState.gameBoard[index];
     card.revealed = true;
@@ -99,6 +104,13 @@ function changeTurn() {
   gameState.currentClue = "";
   gameState.moveCounter = null;
 }
+
+function revealAllCards() {
+  for (let i = 0; i < 25; i++) {
+    gameState.gameBoard[i].revealed = true;
+  }
+}
+
 
 const PORT = 3000;
 server.listen(PORT, "0.0.0.0", () => {
