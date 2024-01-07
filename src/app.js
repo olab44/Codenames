@@ -33,7 +33,7 @@ io.on("connection", (socket) => {
   socket.on("update", () => {
     io.emit("update", gameState);
   });
-
+  
   socket.on("turnPassed", () => {
     changeTurn();
     io.emit("update", gameState);
@@ -66,7 +66,7 @@ io.on("connection", (socket) => {
       case "black":
         console.log("END GAME");
         gameEnded = true;
-        endGame();
+        gameState.moveCounter = 1;
         io.emit("gameEnded", gameState);
         break;
     }
@@ -78,14 +78,14 @@ io.on("connection", (socket) => {
     if (gameState.blueCards === 0) { 
       gameEnded = true; 
       console.log("BLUE WIN");
-      endGame();
+      gameState.moveCounter = 1;
       io.emit("gameEnded", gameState);
     }
 
     if (gameState.redCards === 0) {
       gameEnded = true;
       console.log("RED WIN");
-      endGame();
+      gameState.moveCounter = 1;
       io.emit("gameEnded", gameState);
     }
 
@@ -98,17 +98,6 @@ function changeTurn() {
   gameState.isBlueTurn = !gameState.isBlueTurn;
   gameState.currentClue = "";
   gameState.moveCounter = null;
-}
-
-function endGame() {
-  gameState.moveCounter = 1;
-  // revealAllCards();
-}
-
-function revealAllCards() {
-  for (let i = 0; i < 25; i++) {
-    gameState.gameBoard[i].revealed = true;
-  }
 }
 
 const PORT = 3000;

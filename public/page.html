@@ -32,6 +32,12 @@
     <button id="passButton" onclick="passTurn()">Pass Turn</button>
   </div>
 
+  <div id="endGameBox" hidden>
+    <p>The game has ended</p>
+    <p>winner: </p>
+    <button id="revealBoardButton" onclick="revealAllCards()">Reveal the board</button>
+  </div>
+
   <div id="sidebar" class="sidebar">
     <button id="sidebarButton" onclick="sidebar()">&times;</button>
     <div id="sidebarContent" class="sidebarContent">
@@ -64,6 +70,8 @@
 
 
   function endGame() {
+    document.getElementById('endGameBox').removeAttribute("hidden");
+    dragElement(document.getElementById("endGameBox"));
     document.getElementById('clueInputWord').readOnly = true;
     document.getElementById('clueInputNumber').readOnly = true;
     document.getElementById('submitClueButton').disabled = true;
@@ -186,6 +194,39 @@
       })
       return !invalidFound;
     }
+    function dragElement(elmnt) {
+  var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+  if (document.getElementById(elmnt.id + "Header")) {
+    document.getElementById(elmnt.id + "Header").onmousedown = dragMouseDown;
+  } else {
+    elmnt.onmousedown = dragMouseDown;
+  }
+
+  function dragMouseDown(e) {
+    e = e || window.event;
+    e.preventDefault();
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    document.onmouseup = closeDragElement;
+    document.onmousemove = elementDrag;
+  }
+
+  function elementDrag(e) {
+    e = e || window.event;
+    e.preventDefault();
+    pos1 = pos3 - e.clientX;
+    pos2 = pos4 - e.clientY;
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+    elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+  }
+
+  function closeDragElement() {
+    document.onmouseup = null;
+    document.onmousemove = null;
+  }
+}
 
   </script>
 

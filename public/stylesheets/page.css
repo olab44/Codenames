@@ -162,3 +162,18 @@ body.redTurn {
 #redLeft {
   color: red;
 }
+
+#endGameBox {
+  z-index: 9999;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 50vh;
+  width: 50vh;
+  padding: 20px;
+  background-color: #fff;
+  border: 2px solid #000;
+  text-align: center;
+  cursor: move;
+}
