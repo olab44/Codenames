@@ -45,6 +45,12 @@ io.on("connection", (socket) => {
     io.emit("update", gameState);
   });
 
+  socket.on("newGame", () => {
+    gameState = new GameState();
+    gameState.initializeGame();
+    io.emit("update", gameState);
+  });
+
   socket.on("revealBoard", ()=> {
     revealAllCards();
     io.emit("update", gameState);
