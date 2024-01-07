@@ -133,15 +133,17 @@ body.redTurn {
 }
 .sidebar.expanded {
   width: 35vh;
-  background: white;
-  border-left: 2px solid black;
+  background: rgb(40, 40, 40);
+  border-left: 5px solid black;
   transition: 1s;
+  box-sizing: border-box;
 }
 #sidebarButton {
   height: 5vh;
   text-align: center;
   border: none;
-  background-color: white;
+  background-color: black;
+  color: white;
 }
 .sidebarContent {
   display: none;
@@ -155,12 +157,40 @@ body.redTurn {
   grid-gap: 5px;
   margin: auto;
   text-align: center;
+  font-size: 5em;
+  margin: 5% 5%;
+  border-bottom: 5px solid black;
+  -webkit-text-stroke-width: 2px;
 }
-#blueLeft {
-  color: blue;
+.history {
+  margin: 5%;
+  font-size: 2em;
+  display: grid;
+  grid-gap: 5%;
 }
-#redLeft {
-  color: red;
+#blueHistory, #redHistory {
+  &::-webkit-scrollbar {
+    background-color: black;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgb(40, 40, 40);
+    border: 3px solid black;
+  }
+  padding: 1vh;
+  height: 30vh;
+  overflow-y: scroll;
+  overflow-wrap: break-word;
+  border-top: 5px solid black;
+  border-bottom: 5px solid black;
+  -webkit-text-stroke-width: 1px;
+}
+.blueText {
+  color: white;
+  -webkit-text-stroke-color: blue;
+}
+.redText {
+  color: white;
+  -webkit-text-stroke-color: red;
 }
 
 #endGameBox {
