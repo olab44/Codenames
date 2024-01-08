@@ -13,13 +13,21 @@ body.redTurn {
   background-image: url(../images/background_red.png);
 }
 
-#changeRoleButton {
+#buttonSection {
   position: fixed;
-  top: 1vh;
-  left: 5vh;
-  width: fit-content;
+  top: 12vh;
+  left: 10vh;
+  display: grid;
+  grid-gap: 2vh;
+}
+.baseButton {
+  width: 20vh;
   height: 5vh;
   padding: 0 1vh;
+  background-color: rgb(40, 40, 40);
+  color: white;
+  border: 5px solid black;
+  border-radius: 5px;
 }
 
 #mainGame {

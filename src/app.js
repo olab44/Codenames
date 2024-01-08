@@ -30,8 +30,18 @@ app.get("/:name", (req, res) => {
 io.on("connection", (socket) => {
   console.log("Welcome to the game!");
 
+  socket.on("newGame", () => {
+    gameState.clearState();
+    gameState.initializeGame();
+    io.emit("joinGame", gameState);
+  })
+
+  socket.on("joinGame", () => {
+    io.emit("joinGame", gameState);
+  });
+
   socket.on("update", () => {
-    io.emit("update", gameState);
+    socket.emit("joinGame", gameState);
   });
 
   socket.on("turnPassed", () => {
@@ -41,7 +51,7 @@ io.on("connection", (socket) => {
 
   socket.on("clueSubmit", (newClue, clueNumber) => {
     gameState.currentClue = newClue;
-    gameState.moveCounter = clueNumber;
+    gameState.moveCounter = clueNumber + 1;
     if (gameState.isBlueTurn) { gameState.blueHistory.push(newClue + " " + clueNumber); }
     else { gameState.redHistory.push(newClue + " " + clueNumber); }
     io.emit("update", gameState);

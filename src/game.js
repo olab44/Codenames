@@ -41,6 +41,18 @@ class GameState {
             });
         }
     }
+
+    clearState() {
+        this.gameBoard = [];
+        this.isBlueTurn = true;
+        this.blueCards = 9;
+        this.redCards = 8;
+        this.moveCounter = null;
+        this.currentClue = "";
+        this.gameEnded = false;
+        this.blueHistory = [];
+        this.redHistory = [];
+    }
 }
 
 class Card {
