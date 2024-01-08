@@ -44,6 +44,7 @@ body.redTurn {
   margin-top: 5px;
 }
 .card {
+  color: black ;
   box-sizing: border-box;
   width: 20vh;
   height: 15vh;
@@ -76,6 +77,7 @@ body.redTurn {
   border-width: 3px;
 }
 .card.revealed {
+  filter: saturate(.5);
   opacity: 0.6;
 }
 
