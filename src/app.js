@@ -12,105 +12,116 @@ app.use(express.urlencoded({ extended: true }));
 
 const { GameState } = require('./game');
 let gameState = new GameState();
-gameState.initializeGame();
 
 app.get("/", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "../public/menu.html"))
+    res.sendFile(path.resolve(__dirname, "../public/menu.html"));
 });
 
-app.post("/redirect", (req, res) => {
-  const gameID = req.body.gameID;
-  res.redirect(`/${gameID}`);
+app.get("/instruction", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "../public/instruction.html"));
 });
 
 app.get("/:name", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "../public/page.html"));
+    res.sendFile(path.resolve(__dirname, "../public/page.html"));
 });
 
 io.on("connection", (socket) => {
-  console.log("Welcome to the game!");
 
-  socket.on("newGame", () => {
-    gameState.clearState();
-    gameState.initializeGame();
-    io.emit("joinGame", gameState);
-    io.emit("newGame");
-  })
+// menu page
 
-  socket.on("joinGame", () => {
-    io.emit("joinGame", gameState);
-  });
+    socket.on("checkGameState", () => {
+        socket.emit("checkedState", gameState.gameRunning);
+    });
 
-  socket.on("update", () => {
-    socket.emit("joinGame", gameState);
-  });
+    socket.on("startGame", () => {
+        gameState.initializeGame();
+        gameState.gameRunning = true;
+        socket.emit("checkedState", gameState.gameRunning);
+    })
 
-  socket.on("turnPassed", () => {
-    changeTurn();
-    io.emit("update", gameState);
-  });
+// game page
 
-  socket.on("clueSubmit", (newClue, clueNumber) => {
-    gameState.currentClue[0] = newClue;
-    gameState.currentClue[1] = clueNumber;
-    if (gameState.isBlueTurn) { gameState.blueHistory.push(newClue + " " + clueNumber); }
-    else { gameState.redHistory.push(newClue + " " + clueNumber); }
-    gameState.moveCounter = clueNumber + 1;
-    io.emit("update", gameState);
-  });
+    socket.on("newGame", () => {
+        gameState.clearState();
+        gameState.initializeGame();
+        io.emit("joinGame", gameState);
+        io.emit("newGame");
+    });
 
-  socket.on("revealBoard", ()=> {
-    revealAllCards();
-    io.emit("update", gameState);
-  })
+    socket.on("joinGame", () => {
+        io.emit("joinGame", gameState);
+    });
 
-  socket.on("revealCard", (index) => {
-    const card = gameState.gameBoard[index];
-    card.revealed = true;
-    const cardColor = card.color;
+    socket.on("update", () => {
+        socket.emit("joinGame", gameState);
+    });
 
-    let shouldChangeTurn = false;
-    switch (cardColor) {
-      case "blue":
-        --gameState.blueCards;
-        if (!gameState.isBlueTurn) { shouldChangeTurn = true; }
-        break;
-      case "red":
-        --gameState.redCards;
-        if (gameState.isBlueTurn) { shouldChangeTurn = true; }
-        break;
-      case "yellow":
-        shouldChangeTurn = true;
-        break;
-      case "black":
-        let winner = (gameState.isBlueTurn === true) ? "RED" : "BLUE";
-        console.log(winner + " WIN");
-        gameEnded = true;
-        gameState.moveCounter = 1;
-        io.emit("gameEnded", winner);
-        break;
-    }
+    socket.on("turnPassed", () => {
+        changeTurn();
+        io.emit("update", gameState);
+    });
 
-    if (shouldChangeTurn || --gameState.moveCounter == 0) {
-      changeTurn();
-    }
+    socket.on("clueSubmit", (newClue, clueNumber) => {
+        gameState.currentClue[0] = newClue;
+        gameState.currentClue[1] = clueNumber;
+        if (gameState.isBlueTurn) { gameState.blueHistory.push(newClue + " " + clueNumber); }
+        else { gameState.redHistory.push(newClue + " " + clueNumber); }
+        gameState.moveCounter = clueNumber + 1;
+        io.emit("update", gameState);
+    });
 
-    if (gameState.blueCards === 0) {
-      gameEnded = true;
-      console.log("BLUE WIN");
-      gameState.moveCounter = 1;
-      io.emit("gameEnded", "BLUE");
-    }
+    socket.on("revealBoard", ()=> {
+        revealAllCards();
+        io.emit("update", gameState);
+    });
 
-    if (gameState.redCards === 0) {
-      gameEnded = true;
-      console.log("RED WIN");
-      gameState.moveCounter = 1;
-      io.emit("gameEnded", "RED");
-    }
+    socket.on("revealCard", (index) => {
+        const card = gameState.gameBoard[index];
+        card.revealed = true;
+        const cardColor = card.color;
 
-    io.emit("update", gameState);
-  });
+        let shouldChangeTurn = false;
+        switch (cardColor) {
+        case "blue":
+            --gameState.blueCards;
+            if (!gameState.isBlueTurn) { shouldChangeTurn = true; }
+            break;
+        case "red":
+            --gameState.redCards;
+            if (gameState.isBlueTurn) { shouldChangeTurn = true; }
+            break;
+        case "yellow":
+            shouldChangeTurn = true;
+            break;
+        case "black":
+            let winner = (gameState.isBlueTurn === true) ? "RED" : "BLUE";
+            console.log(winner + " WIN");
+            gameRunning = false;
+            gameState.moveCounter = 1;
+            io.emit("gameEnded", winner);
+            break;
+        }
+
+        if (shouldChangeTurn || --gameState.moveCounter == 0) {
+        changeTurn();
+        }
+
+        if (gameState.blueCards === 0) {
+            gameRunning = false;
+            console.log("BLUE WIN");
+            gameState.moveCounter = 1;
+            io.emit("gameEnded", "BLUE");
+        }
+
+        if (gameState.redCards === 0) {
+            gameRunning = false;
+            console.log("RED WIN");
+            gameState.moveCounter = 1;
+            io.emit("gameEnded", "RED");
+        }
+
+        io.emit("update", gameState);
+    });
 
 });
 

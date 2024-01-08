@@ -9,17 +9,32 @@
 <body>
     <img src="images/logo.png">
     <div class="gameMenu">
-        <form id="optionsForm" action="/redirect" method="post">
-            <input type="text" id="gameID" name="gameID" placeholder="Enter game ID" required
-            oninvalid="this.setCustomValidity('Cannot be left blank')"
-            oninput="this.setCustomValidity('')"/>
-            <button type="submit">Play</button>
-        </form>
         <div class="Instruction">
-            <button id="inst" onclick="location.href='instruction.html'">Instructions</button>
+            <button id="inst" onclick="location.href='instruction'">Instructions</button>
+        </div>
+        <button id="joinGame" onclick="location.href='game'">JOIN GAME</button>
+        <div class="newGameMenu">
+            <button id="startGame" ondblclick="startGame()">START GAME</div>
         </div>
     </div>
 
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        socket.emit("checkGameState");
+
+        socket.on("checkedState", (gameRunning) => {
+            if (!gameRunning)
+                document.getElementById("joinGame").disabled = true;
+            else
+                document.getElementById("joinGame").disabled = false;
+        });
+
+        function startGame() {
+            socket.emit("startGame");
+        }
+
+    </script>
 </body>
 </head>
 </html>

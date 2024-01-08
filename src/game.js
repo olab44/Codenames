@@ -9,7 +9,7 @@ class GameState {
         this.redCards = 8;
         this.moveCounter = null;
         this.currentClue = [null, null];
-        this.gameEnded = false;
+        this.gameRunning = false;
         this.blueHistory = [];
         this.redHistory = [];
     }
@@ -49,7 +49,7 @@ class GameState {
         this.redCards = 8;
         this.moveCounter = null;
         this.currentClue = [null, null];
-        this.gameEnded = false;
+        this.gameRunning = false;
         this.blueHistory = [];
         this.redHistory = [];
     }

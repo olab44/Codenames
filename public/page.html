@@ -64,22 +64,22 @@
     socket.emit("update")
 
     socket.on("update", (gameState) => {
-      if (gameState.gameEnded) { endGame(); }
+      if (!gameState.gameRunning) { endGame(); }
       updateCardsCount(gameState.blueCards, gameState.redCards);
       showClueInput(gameState.currentClue);
       displayMoveCounter(gameState.moveCounter);
       changeTurn(gameState.isBlueTurn);
-      renderBoard(gameState.gameBoard, gameState.moveCounter, gameState.gameEnded);
+      renderBoard(gameState.gameBoard, gameState.moveCounter, gameState.gameRunning);
       updateClueHistory(gameState.blueHistory, gameState.redHistory);
     });
 
     socket.on("joinGame", (gameState) => {
-      if (gameState.gameEnded) { endGame(); }
+      if (!gameState.gameRunning) { endGame(); }
       updateCardsCount(gameState.blueCards, gameState.redCards);
       showClueInput(gameState.currentClue);
       displayMoveCounter(gameState.moveCounter);
       changeTurn(gameState.isBlueTurn);
-      renderBoard(gameState.gameBoard, gameState.moveCounter, gameState.gameEnded);
+      renderBoard(gameState.gameBoard, gameState.moveCounter, gameState.gameRunning);
       updateClueHistory(gameState.blueHistory, gameState.redHistory);
     });
 

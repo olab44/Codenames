@@ -20,25 +20,15 @@ img {
     border: 5px solid black;
 }
 
-.gameMenu form {
-    display: inline-block;
-    margin: auto;
-    width: 100%;
-}
-
-.gameMenu input {
-    width: 70%;
-    height: 50px;
-    text-align: left;
-    font-size: larger;
-}
-
 .gameMenu button {
     margin: auto;
     width: 20%;
     min-width: fit-content;
     height: 50px;
     font-size: larger;
+    background-color: white;
+    border: 3px solid #ccc;
+    border-radius: 5px;
 }
 
 .Instruction button {
