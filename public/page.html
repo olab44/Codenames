@@ -60,7 +60,7 @@
     const socket = io();
     let isSpymaster = false;
     socket.emit("update")
-    console.log(location.href);
+
     socket.on("update", (gameState) => {
       if (gameState.gameEnded) { endGame(); }
       updateCardsCount(gameState.blueCards, gameState.redCards);

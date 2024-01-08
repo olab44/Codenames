@@ -34,6 +34,7 @@ io.on("connection", (socket) => {
     gameState.clearState();
     gameState.initializeGame();
     io.emit("joinGame", gameState);
+    io.emit("newGame");
   })
 
   socket.on("joinGame", () => {
@@ -55,13 +56,6 @@ io.on("connection", (socket) => {
     if (gameState.isBlueTurn) { gameState.blueHistory.push(newClue + " " + clueNumber); }
     else { gameState.redHistory.push(newClue + " " + clueNumber); }
     io.emit("update", gameState);
-  });
-
-  socket.on("newGame", () => {
-    gameState = new GameState();
-    gameState.initializeGame();
-    io.emit("update", gameState);
-    io.emit("newGame");
   });
 
   socket.on("revealBoard", ()=> {
