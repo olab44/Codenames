@@ -11,9 +11,11 @@
 
 <body>
 
+  <div id="moveCounterDisplay"></div>
+
   <div id="buttonSection">
     <button class="baseButton" onclick="changeRole()">Change Role</button>
-    <button class="baseButton" ondblclick="restartGame()">Restart Game</button>
+    <button class="baseButton" ondblclick="restartGame()">New Game</button>
     <button class="baseButton" ondblclick="mainMenu()">Main Menu</button>
   </div>
 
@@ -38,7 +40,7 @@
     <p>The game has ended</p>
     <p id="winner">winner: </p>
     <button id="revealBoardButton" onclick="revealAllCards()">Reveal the board</button>
-    <button id="newGameButton" onclick="playNewGame()"> Start new game</button>
+    <button id="newGameButton" onclick="playNewGame()">Start new game</button>
   </div>
 
   <div id="sidebar" class="sidebar">
@@ -64,7 +66,8 @@
     socket.on("update", (gameState) => {
       if (gameState.gameEnded) { endGame(); }
       updateCardsCount(gameState.blueCards, gameState.redCards);
-      showClueInput(gameState);
+      showClueInput(gameState.currentClue);
+      displayMoveCounter(gameState.moveCounter);
       changeTurn(gameState.isBlueTurn);
       renderBoard(gameState.gameBoard, gameState.moveCounter, gameState.gameEnded);
       updateClueHistory(gameState.blueHistory, gameState.redHistory);
@@ -73,7 +76,8 @@
     socket.on("joinGame", (gameState) => {
       if (gameState.gameEnded) { endGame(); }
       updateCardsCount(gameState.blueCards, gameState.redCards);
-      showClueInput(gameState);
+      showClueInput(gameState.currentClue);
+      displayMoveCounter(gameState.moveCounter);
       changeTurn(gameState.isBlueTurn);
       renderBoard(gameState.gameBoard, gameState.moveCounter, gameState.gameEnded);
       updateClueHistory(gameState.blueHistory, gameState.redHistory);
@@ -153,26 +157,26 @@
         const newClue = document.getElementById("clueInputWord").value;
         const clueNumber = document.getElementById("clueInputNumber").valueAsNumber;
         const clueMessage = document.getElementById("cluevalidity");
-      
+
         if (validateClue(newClue, clueNumber)) {
           document.getElementById("clueInputWord").value = "";
           document.getElementById("clueInputNumber").value = "";
           clueMessage.textContent = "";
           socket.emit("clueSubmit", newClue, clueNumber);
         } else {
-          clueMessage.textContent = "Niepoprawne, spróbuj jeszcze raz";
+          clueMessage.textContent = "Forbidden clue, try again";
         }
       }
     }
 
-    function showClueInput(gameState) {
+    function showClueInput(clue) {
       const input = document.getElementById("clueInput");
       const clueWord = document.getElementById("clueDisplayWord");
       const clueNumber = document.getElementById("clueDisplayNumber");
       const changeButton = document.getElementById("passButton");
 
-      clueWord.textContent = gameState.currentClue;
-      clueNumber.textContent = gameState.moveCounter;
+      clueWord.textContent = clue[0];
+      clueNumber.textContent = clue[1];
       if (isSpymaster) {
         input.removeAttribute("hidden");
         changeButton.setAttribute("hidden", true);
@@ -180,6 +184,11 @@
         input.setAttribute("hidden", true);
         changeButton.removeAttribute("hidden");
       }
+    }
+
+    function displayMoveCounter(moves) {
+      const moveCounter = document.getElementById("moveCounterDisplay");
+      moveCounter.textContent = moves;
     }
 
     function updateCardsCount(blueCount, redCount) {

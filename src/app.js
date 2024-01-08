@@ -51,10 +51,11 @@ io.on("connection", (socket) => {
   });
 
   socket.on("clueSubmit", (newClue, clueNumber) => {
-    gameState.currentClue = newClue;
-    gameState.moveCounter = clueNumber + 1;
+    gameState.currentClue[0] = newClue;
+    gameState.currentClue[1] = clueNumber;
     if (gameState.isBlueTurn) { gameState.blueHistory.push(newClue + " " + clueNumber); }
     else { gameState.redHistory.push(newClue + " " + clueNumber); }
+    gameState.moveCounter = clueNumber + 1;
     io.emit("update", gameState);
   });
 
@@ -90,7 +91,7 @@ io.on("connection", (socket) => {
         break;
     }
 
-    if (shouldChangeTurn || --gameState.moveCounter == 0 || gameState.blueCards === 0 || gameState.redCards === 0) {
+    if (shouldChangeTurn || --gameState.moveCounter == 0) {
       changeTurn();
     }
 
@@ -115,7 +116,7 @@ io.on("connection", (socket) => {
 
 function changeTurn() {
   gameState.isBlueTurn = !gameState.isBlueTurn;
-  gameState.currentClue = "";
+  gameState.currentClue = [null, null];
   gameState.moveCounter = null;
 }
 

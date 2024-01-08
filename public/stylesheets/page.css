@@ -13,9 +13,26 @@ body.redTurn {
   background-image: url(../images/background_red.png);
 }
 
-#buttonSection {
+#moveCounterDisplay {
   position: fixed;
   top: 12vh;
+  left: 10vh;
+  width: 20vh;
+  height: 12vh;
+  text-align: center;
+  font-size: 5em;
+  line-height: 12vh;
+  color: white;
+  -webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-color: black;
+  background-color: rgb(40, 40, 40);
+  border: 5px solid black;
+  border-radius: 5px;
+}
+
+#buttonSection {
+  position: fixed;
+  bottom: 12vh;
   left: 10vh;
   display: grid;
   grid-gap: 2vh;
@@ -24,8 +41,8 @@ body.redTurn {
   width: 20vh;
   height: 5vh;
   padding: 0 1vh;
-  background-color: rgb(40, 40, 40);
   color: white;
+  background-color: rgb(40, 40, 40);
   border: 5px solid black;
   border-radius: 5px;
 }
@@ -48,7 +65,7 @@ body.redTurn {
   box-sizing: border-box;
   width: 20vh;
   height: 15vh;
-  border: 1px solid black;
+  border: 2px solid black;
   background-color: #ffffee;
   display: flex;
   align-items: center;
@@ -69,12 +86,12 @@ body.redTurn {
   background: radial-gradient(circle, #ffff00 0%, #888800 100%);
 }
 .card.black {
-  color: whitesmoke;
+  color: white;
   background-color: #303030;
   background: radial-gradient(circle, #303030 0%, #000000 100%);
 }
 .card.highlight {
-  border-width: 3px;
+  border-width: 5px;
 }
 .card.revealed {
   filter: saturate(.5);
@@ -87,7 +104,9 @@ body.redTurn {
   align-items: center;
   vertical-align: top;
   height: 5vh;
-  background-color: field;
+  background-color: white;
+  border: 2px solid black;
+  border-radius: 5px;
 }
 .clueWord {
   width: 70vh;
