@@ -36,8 +36,9 @@
 
   <div id="endGameBox" hidden>
     <p>The game has ended</p>
-    <p>winner: </p>
+    <p id="winner">winner: </p>
     <button id="revealBoardButton" onclick="revealAllCards()">Reveal the board</button>
+    <button id="newGameButton" onclick="playNewGame()"> Start new game</button>
   </div>
 
   <div id="sidebar" class="sidebar">
@@ -107,10 +108,19 @@
       reds.scrollTop = reds.scrollHeight;
     }
 
-    socket.on("gameEnded", (gameState) => { endGame(); });
+    socket.on("gameEnded", (winner) => { endGame(winner); });
 
-    function endGame() {
+    socket.on("newGame", () => {
+      document.getElementById('endGameBox').setAttribute("hidden", true);
+      document.getElementById('clueInputWord').readOnly = false;
+      document.getElementById('clueInputNumber').readOnly = false;
+      document.getElementById('submitClueButton').disabled = false;
+      document.getElementById('passButton').disabled = false;
+    })
+
+    function endGame(winner) {
       document.getElementById('endGameBox').removeAttribute("hidden");
+      document.getElementById('winner').innerText = "Winner: " + winner;
       dragElement(document.getElementById("endGameBox"));
       document.getElementById('clueInputWord').readOnly = true;
       document.getElementById('clueInputNumber').readOnly = true;
@@ -122,6 +132,10 @@
     }
 
     function revealAllCards() { socket.emit("revealBoard"); }
+
+    function playNewGame(){
+      socket.emit("newGame");
+    }
 
     function changeRole() {
       isSpymaster = !isSpymaster;
