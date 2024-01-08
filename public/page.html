@@ -143,21 +143,25 @@
     }
 
     function passTurn() {
-      socket.emit("turnPassed");
+      if (document.getElementById("clueDisplayWord").innerText != "") {
+        socket.emit("turnPassed");
+      }
     }
 
     function submitClue() {
-      const newClue = document.getElementById("clueInputWord").value;
-      const clueNumber = document.getElementById("clueInputNumber").valueAsNumber;
-      const clueMessage = document.getElementById("cluevalidity");
-
-      if (validateClue(newClue, clueNumber)) {
-        document.getElementById("clueInputWord").value = "";
-        document.getElementById("clueInputNumber").value = "";
-        clueMessage.textContent = "";
-        socket.emit("clueSubmit", newClue, clueNumber);
-      } else {
-        clueMessage.textContent = "Niepoprawne, spróbuj jeszcze raz";
+      if (document.getElementById("clueDisplayWord").innerText == ""){
+        const newClue = document.getElementById("clueInputWord").value;
+        const clueNumber = document.getElementById("clueInputNumber").valueAsNumber;
+        const clueMessage = document.getElementById("cluevalidity");
+      
+        if (validateClue(newClue, clueNumber)) {
+          document.getElementById("clueInputWord").value = "";
+          document.getElementById("clueInputNumber").value = "";
+          clueMessage.textContent = "";
+          socket.emit("clueSubmit", newClue, clueNumber);
+        } else {
+          clueMessage.textContent = "Niepoprawne, spróbuj jeszcze raz";
+        }
       }
     }
 
