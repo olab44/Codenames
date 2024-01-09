@@ -35,8 +35,8 @@ io.on("connection", (socket) => {
 
     socket.on("startGame", () => {
         gameState.initializeGame();
-        gameState.gameRunning = true;
-        socket.emit("checkedState", gameState.gameRunning);
+        io.emit("checkedState", gameState.gameRunning);
+        io.emit("joinGame", gameState)
     })
 
 // game page
@@ -96,28 +96,25 @@ io.on("connection", (socket) => {
         case "black":
             let winner = (gameState.isBlueTurn === true) ? "RED" : "BLUE";
             console.log(winner + " WIN");
-            gameRunning = false;
-            gameState.moveCounter = 1;
             io.emit("gameEnded", winner);
+            gameState.gameRunning = false;
             break;
         }
 
         if (shouldChangeTurn || --gameState.moveCounter == 0) {
-        changeTurn();
+            changeTurn();
         }
 
         if (gameState.blueCards === 0) {
-            gameRunning = false;
-            console.log("BLUE WIN");
-            gameState.moveCounter = 1;
             io.emit("gameEnded", "BLUE");
+            gameState.gameRunning = false;
+            console.log("BLUE WIN");
         }
 
         if (gameState.redCards === 0) {
-            gameRunning = false;
-            console.log("RED WIN");
-            gameState.moveCounter = 1;
             io.emit("gameEnded", "RED");
+            gameState.gameRunning = false;
+            console.log("RED WIN");
         }
 
         io.emit("update", gameState);

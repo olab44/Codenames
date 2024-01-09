@@ -26,6 +26,7 @@ class GameState {
     }
 
     initializeGame() {
+        this.gameRunning = true;
         let gboard2 = new Board();
         gboard2.createBoard();
         this.gameBoard = gboard2.tiles;

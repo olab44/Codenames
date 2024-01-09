@@ -64,7 +64,6 @@
     socket.emit("update")
 
     socket.on("update", (gameState) => {
-      if (!gameState.gameRunning) { endGame(); }
       updateCardsCount(gameState.blueCards, gameState.redCards);
       showClueInput(gameState.currentClue);
       displayMoveCounter(gameState.moveCounter);
@@ -74,7 +73,6 @@
     });
 
     socket.on("joinGame", (gameState) => {
-      if (!gameState.gameRunning) { endGame(); }
       updateCardsCount(gameState.blueCards, gameState.redCards);
       showClueInput(gameState.currentClue);
       displayMoveCounter(gameState.moveCounter);
@@ -124,14 +122,12 @@
 
     function endGame(winner) {
       document.getElementById('endGameBox').removeAttribute("hidden");
-      document.getElementById('winner').innerText = "Winner: " + winner;
+      document.getElementById('winner').textContent = "Winner: " + winner;
       dragElement(document.getElementById("endGameBox"));
       document.getElementById('clueInputWord').readOnly = true;
       document.getElementById('clueInputNumber').readOnly = true;
       document.getElementById('submitClueButton').disabled = true;
       document.getElementById('passButton').disabled = true;
-
-      gameState.moveCounter = 1;
       const cards = document.getElementsByClassName('card');
     }
 
