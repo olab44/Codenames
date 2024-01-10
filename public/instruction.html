@@ -10,39 +10,51 @@
 <body>
     <img src="images/logo.png">
     <button id="inst" onclick="location.href='menu.html'">Back to menu</button>
+    <button id="bl" onclick="changeLanguage('english')">English</button>
+    <button id="bl" onclick="changeLanguage('polish')">Polish</button>
     <div class="gameMenu" id="instructionsContainer">
-        <h1>Instruction</h1>
-        <div id="Preparation">
-            <div id="Teams"></div>
-            <div id="Login"></div>
-        </div>
-        <div id="section2"></div>
-        <div id="section3"></div>
+        <h1 id="languageTitle">Instruction</h1>
+        <div id="Preparation" class="instructionBox"></div>
+        <div id="section2" class="instructionBox"></div>
+        <div id="section3" class="instructionBox"></div>
     </div>
 
     <script>
-        function fetchAndDisplayContent(title, fileName) {
+        function fetchAndDisplayContent(title, fileName, sectionId) {
             fetch(fileName)
                 .then(response => response.text())
                 .then(content => {
-                    const instructionBox = document.createElement('div');
-                    instructionBox.classList.add('instructionBox');
-
+                    const instructionBox = document.getElementById(sectionId);
+                    instructionBox.innerHTML = '';
+                    
                     const heading = document.createElement('h2');
                     heading.textContent = title;
 
                     const paragraph = document.createElement('p');
                     paragraph.innerHTML = content;
+
                     instructionBox.appendChild(heading);
                     instructionBox.appendChild(paragraph);
-                    document.getElementById('instructionsContainer').appendChild(instructionBox);
                 })
                 .catch(error => console.error('Error fetching content:', error));
         }
-        fetchAndDisplayContent('Przygotowanie', 'instructions/preparation.md', 'section1');
-        fetchAndDisplayContent('Rozgrywka', 'instructions/gameplay.txt', 'section2');
-        fetchAndDisplayContent('Zakończenie', 'instructions/conclusion.txt', 'section3');
+
+        function changeLanguage(language) {
+            const languageTitle = document.getElementById('languageTitle');
+
+            if (language === 'english') {
+                languageTitle.innerText = 'Instruction';
+                fetchAndDisplayContent('Preparation', 'instructions/preparation.txt', 'Preparation');
+                fetchAndDisplayContent('Gameplay', 'instructions/gameplay.txt', 'section2');
+                fetchAndDisplayContent('Conclusion', 'instructions/conclusion.txt', 'section3');
+            } else if (language === 'polish') {
+                languageTitle.innerText = 'Instrukcja';
+                fetchAndDisplayContent('Przygotowanie', 'instructions/przygotowanie.txt', 'Preparation');
+                fetchAndDisplayContent('Rozgrywka', 'instructions/rozgrywka.txt', 'section2');
+                fetchAndDisplayContent('Zakończenie', 'instructions/zakończenie.txt', 'section3');
+            }
+        }
+        changeLanguage('english');
     </script>
 </body>
 </html>
-
