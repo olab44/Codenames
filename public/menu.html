@@ -14,6 +14,19 @@
         </div>
         <button id="joinGame" onclick="location.href='game'" disabled>JOIN GAME</button>
         <div class="newGameMenu">
+            <fieldset>
+                <legend>SELECT LANGUAGE OF THE WORDS:</legend>
+                <div>
+                    <input type="radio" id="ENG" name="language" value="ENG" checked />
+                    <label for="ENG">ENGLISH</label>
+                    <input type="radio" id="POL" name="language" value="POL"/>
+                    <label for="POL">POLISH</label>
+                    <input type="radio" id="GER" name="language" value="GER"/>
+                    <label for="GER">GERMAN</label>
+                    <input type="radio" id="SPA" name="language" value="SPA"/>
+                    <label for="SPA">SPANISH</label>
+                  </div>
+              </fieldset>
             <button id="startGame" ondblclick="startGame()">START GAME</div>
         </div>
     </div>
@@ -31,7 +44,15 @@
         });
 
         function startGame() {
-            socket.emit("startGame");
+            const radios = document.getElementsByName("language");
+            let language;
+            for (var i = 0, length = radios.length; i < length; i++) {
+                if (radios[i].checked) {
+                    language = radios[i].value;
+                    break;
+                }
+            }
+            socket.emit("startGame", language);
         }
 
     </script>

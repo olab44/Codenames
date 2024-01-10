@@ -11,8 +11,8 @@ function connect() {
   });
 
   db.connect((err) => {
-  if (err) console.error('Error connecting to MySQL database:', err); 
-  else console.log('Connected to MySQL database'); 
+  if (err) console.error('Error connecting to MySQL database:', err);
+  else console.log('Connected to MySQL database');
   });
   return db;
 }
@@ -21,14 +21,12 @@ function connect() {
 function getAllData() {
   const db = connect();
   const sqlCodenames = 'SELECT * FROM codenames_words';
-  const sqlRoles = 'SELECT * FROM roles';
 
   return Promise.all([
     db.promise().query(sqlCodenames).then(([rows, fields]) => rows),
-    db.promise().query(sqlRoles).then(([rows, fields]) => rows)
   ])
-    .then(([codenamesData, rolesData]) => {
-      return { codenamesData, rolesData };
+    .then(([codenamesData]) => {
+      return { codenamesData };
     })
     .catch((error) => {
       console.error('Error fetching data from MySQL:', error);
@@ -39,18 +37,3 @@ function getAllData() {
 
 
 module.exports = { getAllData };
-
-// getAllData()
-//   .then(({ codenamesData, rolesData }) => {
-//     console.log('Words for game:', codenamesData.map(word => word.word_text));
-//     // console.log('Role Names:', rolesData.map(role => role.role_name));
-//     // console.log('Possible roles', rolesData);
-
-//   })
-//   .catch((error) => {
-//     console.error('Error:', error);
-//   })
-//   .finally(() => {
-//     process.exit();
-//   });
-

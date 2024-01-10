@@ -12,6 +12,7 @@ class GameState {
         this.gameRunning = false;
         this.blueHistory = [];
         this.redHistory = [];
+        this.language = null
     }
 
     async initializeGame() {
@@ -25,10 +26,18 @@ class GameState {
         }
     }
 
-    initializeGame() {
+    initializeGame(language="ENG") {
+        this.clearState();
+        this.language = language;
         this.gameRunning = true;
+
+        const blueTurn = Math.floor(Math.random() * 2);
+        this.isBlueTurn = (blueTurn === 0) ? true : false;
+        this.blueCards = (blueTurn === 0) ? 9 : 8;
+        this.redCards = (blueTurn === 0) ? 8 : 9;
+
         let gboard2 = new Board();
-        gboard2.createBoard();
+        gboard2.createBoard(this.language, this.blueCards, this.redCards);
         this.gameBoard = gboard2.tiles;
     }
 
@@ -46,7 +55,7 @@ class GameState {
     clearState() {
         this.gameBoard = [];
         this.isBlueTurn = true;
-        this.blueCards = 9;
+        this.blueCards = 8;
         this.redCards = 8;
         this.moveCounter = null;
         this.currentClue = [null, null];
@@ -84,8 +93,8 @@ class Board {
           const { codenamesData } = await getAllData();
           let i;
           const randomWords = getRandomWords(codenamesData, 25);
-          for (i = 0; i < 9; i++) { this.tiles.push(new Card(randomWords[i].word_text, 'blue'));}
-          for (i = 0; i < 8; i++) { this.tiles.push(new Card(randomWords[i+9].word_text, 'red'));}
+          for (i = 0; i < blueCards; i++) { this.tiles.push(new Card(randomWords[i].word_text, 'blue'));}
+          for (i = 0; i < redCards; i++) { this.tiles.push(new Card(randomWords[i+blueCards].word_text, 'red'));}
           for (i = 0; i < 7; i++) { this.tiles.push(new Card(randomWords[i+17].word_text, 'yellow'));}
           this.tiles.push(new Card(randomWords[24].word_text, 'black'));
           shuffle(this.tiles);;
@@ -95,14 +104,14 @@ class Board {
         }
     }
 
-    createBoard() {
+    createBoard(language, blueCards, redCards) {
         const data = fetchWords('src/words.json');
         let i;
         const game_words = getRandomWords(data, 25);
-        for (i = 0; i < 9; i++) { this.tiles.push(new Card(game_words[i].word, 'blue'));}
-        for (i = 0; i < 8; i++) { this.tiles.push(new Card(game_words[i+9].word, 'red'));}
-        for (i = 0; i < 7; i++) { this.tiles.push(new Card(game_words[i+17].word, 'yellow'));}
-        this.tiles.push(new Card(game_words[24].word, 'black'));
+        for (i = 0; i < 9; i++) { this.tiles.push(new Card(game_words[i][language], 'blue'));}
+        for (i = 0; i < 8; i++) { this.tiles.push(new Card(game_words[i+9][language], 'red'));}
+        for (i = 0; i < 7; i++) { this.tiles.push(new Card(game_words[i+17][language], 'yellow'));}
+        this.tiles.push(new Card(game_words[24][language], 'black'));
         shuffle(this.tiles);
         return this.tiles;
     }
@@ -132,7 +141,6 @@ function fetchWords(filePath) {
     try {
       const jsonData = fs.readFileSync(filePath, 'utf-8');
       const parsedData = JSON.parse(jsonData);
-    //   console.log(parsedData);
       return parsedData;
       }
      catch (error) {
@@ -140,33 +148,8 @@ function fetchWords(filePath) {
     }
 }
 
-
-
 module.exports = { GameState };
 
-// const gameState = new GameState();
-// gameState.initializeGame();
-// gameState.displayGameBoard();
-// process.exit();
-//     .then(() => {
-//         gameState.displayGameBoard();
-//         console.log(gameState);
-//         process.exit();
-//     })
-
-// gameBoard.initializeBoard()
-//     .then(() => {console.log(gameBoard.tiles);
-//         process.exit();
-//     })
-//   .then(() => {
-//     gameBoard.displayBoard();
-//   })
-//   .catch((error) => {
-//     console.error('Error:', error);
-//   })
-//   .finally(() => {
-//     process.exit();
-//   });
 
 
 

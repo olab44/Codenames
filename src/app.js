@@ -33,8 +33,8 @@ io.on("connection", (socket) => {
         socket.emit("checkedState", gameState.gameRunning);
     });
 
-    socket.on("startGame", () => {
-        gameState.initializeGame();
+    socket.on("startGame", (language) => {
+        gameState.initializeGame(language);
         io.emit("checkedState", gameState.gameRunning);
         io.emit("joinGame", gameState)
     })
@@ -42,8 +42,7 @@ io.on("connection", (socket) => {
 // game page
 
     socket.on("newGame", () => {
-        gameState.clearState();
-        gameState.initializeGame();
+        gameState.initializeGame(gameState.language);
         io.emit("joinGame", gameState);
         io.emit("newGame");
     });
@@ -95,7 +94,6 @@ io.on("connection", (socket) => {
             break;
         case "black":
             let winner = (gameState.isBlueTurn === true) ? "RED" : "BLUE";
-            console.log(winner + " WIN");
             io.emit("gameEnded", winner);
             gameState.gameRunning = false;
             break;
@@ -108,13 +106,11 @@ io.on("connection", (socket) => {
         if (gameState.blueCards === 0) {
             io.emit("gameEnded", "BLUE");
             gameState.gameRunning = false;
-            console.log("BLUE WIN");
         }
 
         if (gameState.redCards === 0) {
             io.emit("gameEnded", "RED");
             gameState.gameRunning = false;
-            console.log("RED WIN");
         }
 
         io.emit("update", gameState);

@@ -244,11 +244,11 @@
     }
 
     function validateClue(clueWord, clueNumber) {
-      if (!(clueNumber >= 0 && clueNumber <= 9)) { return false; }
+      if (!(clueNumber > 0 && clueNumber <= 9)) { return false; }
       if (!(/^[a-zA-Z]+$/.test(clueWord))) { return false; }
       let invalidFound = false;
       Array.from(document.getElementsByClassName("card")).forEach(function(card) {
-        if (clueWord.toLowerCase().includes(card.textContent.toLowerCase())) {
+        if (clueWord.toUpperCase().includes(card.textContent.toUpperCase())) {
           invalidFound = true;
         }
       })
