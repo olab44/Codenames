@@ -1,3 +1,28 @@
-Jak zacząć rozgrywkę?
+# TEAMS <br>
+<br>
+Divide into two teams of similar size.<br>
+You need at least four players to play (two teams of two).<br>
+Each team chooses its own spy network boss.<br>
+<br>
+# LOGGING<br>
+<br>
+Potrzebujecie 2 urządzeń - jednego dla szefów i jednego dla agentów. <br>
+Aby móc grać na 2 urządzeniach, nalezy połączyć oba komputery do jednej sieci lokalnej a następnie uruchomić w przeglądarce internetowej, pod adresem:<br>
+"http://{ip komputera}:3000"<br> 
+W przypadku urządzenia które jest hostem jest to "http://localhost:3000" <br>
 
-nnnnn
+
+After logging in, one person has to create a game (press the "CREATE GAME" button twice) and then everyone can join in. <br>
+<br>
+
+The spymasters know the identities of the people behind the 25 codenames, The rest of the players see the codenames alone.<br>
+This means that spymasters, when they log in, have to change their view to Spymaster - the "Change role" button. <br>
+<br>
+#SPYMASTER VIEW<br>
+<br>
+The boss can see the layout of the board - whose cards belong to whose team.<br>
+<br>
+#AGENT VIEW<br>
+<br>
+Agents only see the cards with their names on them, and their task is to guess their own cards. This is done by the boss clues, which will be displayed above the board.
+The number of possible moves in a given turn will be displayed in the top left corner.<br>

@@ -25,9 +25,16 @@ img {
 .instructionBox {
     background-color: whitesmoke;
     border: 10px solid #ccc;
-    padding: 15px;
+    padding: 10px;
     margin-bottom: 20px;
+    display: inline-block;
+    width: calc(33.33% - 30px);  
+    box-sizing: border-box; 
+    margin-right: 20px; 
+    vertical-align: top;
+    text-align: center;
 }
+
 
 #bl {
     width: 20vh;

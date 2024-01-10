@@ -12,9 +12,14 @@
     <button id="inst" onclick="location.href='menu.html'">Back to menu</button>
     <button id="bl" onclick="changeLanguage('english')">English</button>
     <button id="bl" onclick="changeLanguage('polish')">Polish</button>
+    <!-- <div class="gameMenu" id="instructionsContainer">
+        <h1>Instruction</h1>
+        <embed src="vn.pdf" type="application/pdf" width="100%" height="1000vh">
+    </div> -->
+
     <div class="gameMenu" id="instructionsContainer">
         <h1 id="languageTitle">Instruction</h1>
-        <div id="Preparation" class="instructionBox"></div>
+        <div id="section1" class="instructionBox"></div>
         <div id="section2" class="instructionBox"></div>
         <div id="section3" class="instructionBox"></div>
     </div>
@@ -44,12 +49,12 @@
 
             if (language === 'english') {
                 languageTitle.innerText = 'Instruction';
-                fetchAndDisplayContent('Preparation', 'instructions/preparation.txt', 'Preparation');
+                fetchAndDisplayContent('Preparation', 'instructions/preparation.txt', 'section1');
                 fetchAndDisplayContent('Gameplay', 'instructions/gameplay.txt', 'section2');
                 fetchAndDisplayContent('Conclusion', 'instructions/conclusion.txt', 'section3');
             } else if (language === 'polish') {
                 languageTitle.innerText = 'Instrukcja';
-                fetchAndDisplayContent('Przygotowanie', 'instructions/przygotowanie.txt', 'Preparation');
+                fetchAndDisplayContent('Przygotowanie', 'instructions/przygotowanie.txt', 'section1');
                 fetchAndDisplayContent('Rozgrywka', 'instructions/rozgrywka.txt', 'section2');
                 fetchAndDisplayContent('Zakończenie', 'instructions/zakończenie.txt', 'section3');
             }

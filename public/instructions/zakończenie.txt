@@ -1,5 +1,8 @@
-Gra kończy się, gdy jedna drużyna zasłoni wszystkie swoje słowa. Ta drużyna zwycięża.
-Można wygrać podczas tury drugiej drużyny, jeśli jej przedstawiciele zgadną Wasze ostatnie słowo.
-Gra może też zakończyć się wcześniej, gdy tajniak skontaktuje się z zabójcą. Drużyna tego tajniaka przegrywa.
-
-dsijsiso
+Gra kończy się  w 3 przypadkach<br>
+<br>
+1. Któraś z drużyn odsłoni wszystkie swoje karty - zwycięza<br>
+2. Przeciwnicy odgadną wasze ostatnie słowa <br>
+3. Któraś z drużyn odkryję zabójcę (czarna karta) - ta drużyna przegrywa <br>
+<br>
+Po zakończeniu gry wyświetla się okienko z informacją, kto wygrał. Oprócz tego, możecie zobaczyć jak wyglądała plansza, czyje karty były danej drużyny.<br>
+Następnie jezeli macie ochotę, mozecie uruchomić nową rozgrywkę. <br>
