@@ -12,16 +12,26 @@
     <button id="inst" onclick="location.href='menu.html'">Back to menu</button>
     <button id="bl" onclick="changeLanguage('english')">English</button>
     <button id="bl" onclick="changeLanguage('polish')">Polish</button>
-    <!-- <div class="gameMenu" id="instructionsContainer">
-        <h1>Instruction</h1>
-        <embed src="vn.pdf" type="application/pdf" width="100%" height="1000vh">
-    </div> -->
 
     <div class="gameMenu" id="instructionsContainer">
         <h1 id="languageTitle">Instruction</h1>
-        <div id="section1" class="instructionBox"></div>
-        <div id="section2" class="instructionBox"></div>
+        <div id="section1" class="instructionBox">
+        </div>
+        <div id="section2" class="instructionBox">
+            <div><img src="images/enter.png"></div>
+            <div><img src="images/spymaster.png"></div>
+            <div><img src="images/agent.png" ></div>
+        </div>
         <div id="section3" class="instructionBox"></div>
+        <div id="section4" class="instructionBox">
+            <div><img src="images/forbidden.png" ></div>
+            <div><img src="images/hints.png" ></div>
+            <div><img src="images/guessing.png" ></div>
+        </div>
+        <div id="section5" class="instructionBox"></div>
+        <div id="section6" class="instructionBox">
+            <div><img src="images/end.png" ></div>
+        </div>
     </div>
 
     <script>
@@ -50,13 +60,13 @@
             if (language === 'english') {
                 languageTitle.innerText = 'Instruction';
                 fetchAndDisplayContent('Preparation', 'instructions/preparation.txt', 'section1');
-                fetchAndDisplayContent('Gameplay', 'instructions/gameplay.txt', 'section2');
-                fetchAndDisplayContent('End', 'instructions/conclusion.txt', 'section3');
+                fetchAndDisplayContent('Game', 'instructions/gameplay.txt', 'section3');
+                fetchAndDisplayContent('End', 'instructions/conclusion.txt', 'section5');
             } else if (language === 'polish') {
                 languageTitle.innerText = 'Instrukcja';
                 fetchAndDisplayContent('Przygotowanie', 'instructions/przygotowanie.txt', 'section1');
-                fetchAndDisplayContent('Rozgrywka', 'instructions/rozgrywka.txt', 'section2');
-                fetchAndDisplayContent('Zakończenie', 'instructions/zakończenie.txt', 'section3');
+                fetchAndDisplayContent('Rozgrywka', 'instructions/rozgrywka.txt', 'section3');
+                fetchAndDisplayContent('Zakończenie', 'instructions/zakończenie.txt', 'section5');
             }
         }
         changeLanguage('english');

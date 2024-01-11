@@ -1,25 +1,35 @@
+<br>
 # DRUŻYNY <br>
+<br>
 <br>
 Podziecie się na dwie drużyny podobnego rozmiaru.<br>
 Do gry potrzeba co najmniej czterech graczy (dwie drużyny po dwie osoby).<br>
 Każda drużyna wybiera swojego szefa siatki szpiegowskiej.<br>
 <br>
+<br>
 # LOGOWANIE<br>
 <br>
+<br>
 Potrzebujecie 2 urządzeń - jednego dla szefów i jednego dla agentów. <br>
-Aby móc grać na 2 urządzeniach, nalezy połączyć oba komputery do jednej sieci lokalnej a następnie uruchomić w przeglądarce internetowej, pod adresem:<br>
+Aby móc grać na 2 urządzeniach, nalezy połączyć oba komputery do jednej sieci lokalnej, <br>
+a następnie uruchomić w przeglądarce internetowej, pod adresem:<br>
 "http://{ip komputera}:3000"<br> 
 W przypadku urządzenia które jest hostem jest to "http://localhost:3000" <br>
 
-Po zalogowaniu jedna osoba musi wybrać język słów na kartach - dostępne są polski, angielski, niemiecki i hiszpański, następnie utworzyć grę (nalezy dwukrotnie nacisnąć przycisk "CREATE GAME") i wszyscy mogą dołączyć do gry. <br>
+Po zalogowaniu jedna osoba musi wybrać język słów na kartach - dostępne są polski, angielski, niemiecki i hiszpański, <br>
+następnie utworzyć grę (nalezy dwukrotnie nacisnąć przycisk "CREATE GAME") i wszyscy mogą dołączyć do gry. <br>
 <br>
 
 Szefowie znają tożsamość osób kryjących się pod 25 kryptonimami. Reszta graczy widzi same kryptonimy.<br>
 Oznacza to, ze szefowie po zalogowaniu, muszą zmienić widok na Spymaster - przycisk "Change role" <br>
 <br>
+<br>
+<br>
 #WIDOK SPYMASTER<br>
 <br>
 Szef widzi układ planszy - czyje karty nalezą do czyjej druzyny. Pod planszą ma równiez pasek do wpisywania wskazówek oraz ich liczby. <br>
+<br>
+<br>
 <br>
 #WIDOK AGENT<br>
 <br>

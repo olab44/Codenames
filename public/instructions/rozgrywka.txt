@@ -1,9 +1,6 @@
 #DAWANIE WSKAZÓWEK<br>
 Jeśli jesteś szefem, musisz wymyślić jednowyrazową wskazówkę powiązaną z kilkoma kryptonimami, które ma zgadnąć Twoja drużyna. 
 Gdy sądzisz, że Twoja wskazówka jest dobra, wpisujesz ją do przeznaczoneg do tego paska na dole, oraz obok podajesz liczbę słów, do których się ona odnosi, a następnie wciskasz "submit clue".<br>
-*Przykład: 
-Dwa z Twoich słów to ŚMIERĆ i NOC. Obydwa kojarzą się z wampirami, więc wpisujesz wampir: 2.
-Możesz podać też wskazówkę dotyczącą jednego słowa (księżyc: 1), ale gra jest o wiele ciekawsza, gdy celujesz w dwa słowa lub nawet więcej.<br>
 -Wskazówka musi być jednowyrazowa,<br>
 -Nie moze zawierać polskich znaków oraz liczb (te dodajesz w oddzielnym okienku),<br>
 -Twoją wskazówką nie może być żaden z kryptonimów widocznych na stole, ani jego fragment.<br>
@@ -31,5 +28,4 @@ Drużyna Niebieskich w swojej turze zgadła dwa słowa. Znów pora na Drużyn
 Szef Czerwonych mówi zwierzę: 3. Czerwony tajniak jest pewien, że KANGUR to zwierzę, dotyka więc tę kartę. Szef kładzie na kryptonimie kartę czerwonego agenta. Czerwoni mają więc kolejne podejście. RYBA to też
 zwierzę – tajniak dotyka więc tę kartę. To znowu czerwona karta – Czerwoni mogą zgadywać dalej.
 Tajniak nie ma jednak pomysłu na trzecie słowo związane ze zwierzęciem. Wybiera NOC. Nie ma to związku ze zwierzęciem – zgaduje słowo związane z poprzednią wskazówką.
-NOC to czerwone słowo. Tajniak zgadł 3 słowa w turze ze wskazówką zwierzę: 3. Może zgadywać jeszcze raz. Może spróbować odgadnąć trzecie słowo związane ze zwierzęciem albo drugie słowo związane z wampirem. Może też w tym momen- cie skończyć zgadywać i oddać głos Niebieskim.
-Co rundę masz jedną dodatkową szansę. W powyższym przykładzie tajniak miał 4 podejścia, bo jego szef powiedział liczbę 3. Kiedy tajniacy zgadną wszystkie swoje słowa, postanowią, że nie będą już zgadywać, albo źle zgadną, zaczyna się tura drugiej drużyny.
+NOC to czerwone słowo. Tajniak zgadł 3 słowa w turze ze wskazówką zwierzę: 3. Może zgadywać jeszcze raz. Może spróbować odgadnąć trzecie słowo związane ze zwierzęciem albo drugie słowo związane z wampirem. Może też w tym momencie skończyć zgadywać i oddać głos Niebieskim.

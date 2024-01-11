@@ -1,28 +1,37 @@
+<br>
 # TEAMS <br>
 <br>
-Divide into two teams of similar size.<br>
-You need at least four players to play (two teams of two).<br>
-Each team chooses its own spy network boss.<br>
 <br>
-# LOGGING<br>
+You will be divided into two teams of similar size.<br>
+You need at least four players to play (two teams of two people each).<br>
+Each team chooses its leader of the spy network.<br>
 <br>
-Potrzebujecie 2 urządzeń - jednego dla szefów i jednego dla agentów. <br>
-Aby móc grać na 2 urządzeniach, nalezy połączyć oba komputery do jednej sieci lokalnej a następnie uruchomić w przeglądarce internetowej, pod adresem:<br>
-"http://{ip komputera}:3000"<br> 
-W przypadku urządzenia które jest hostem jest to "http://localhost:3000" <br>
+<br>
+# LOGIN<br>
+<br>
+<br>
+You need 2 devices - one for bosses and one for agents. <br>
+To be able to play on 2 devices, both computers must be connected to one local network, <br>
+and then run it in a web browser at:<br>
+"http://{computer ip}:3000"<br>
+In the case of a host device, it is "http://localhost:3000" <br>
 
-
-After logging in, one person has to create a game (press the "CREATE GAME" button twice) and then everyone can join in. <br>
+After logging in, one person must choose the language of the words on the cards - Polish, English, German and Spanish are available, <br>
+then create a game (press the "CREATE GAME" button twice) and everyone can join the game. <br>
 <br>
 
-The spymasters know the identities of the people behind the 25 codenames, The rest of the players see the codenames alone.<br>
-This means that spymasters, when they log in, have to change their view to Spymaster - the "Change role" button. <br>
+The bosses know the identities of people hiding under 25 codenames. The rest of the players only see codenames.<br>
+This means that after logging in, managers must change the view to Spymaster - the "Change role" button <br>
+<br>
+<br>
 <br>
 #SPYMASTER VIEW<br>
 <br>
-The boss can see the layout of the board - whose cards belong to whose team.<br>
+The boss sees the layout of the board - whose cards belong to whose team. There is also a bar under the board for entering clues and their number. <br>
+<br>
+<br>
 <br>
 #AGENT VIEW<br>
 <br>
-Agents only see the cards with their names on them, and their task is to guess their own cards. This is done by the boss clues, which will be displayed above the board.
-The number of possible moves in a given turn will be displayed in the top left corner.<br>
+Agents only see the cards with their names, and their task is to guess their own cards. This is what the boss's tips are, which will be displayed above the board.
+The number of possible moves in a given turn will be displayed in the upper left corner.<br>
