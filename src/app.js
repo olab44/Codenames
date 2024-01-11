@@ -30,13 +30,13 @@ io.on("connection", (socket) => {
 // menu page
 
     socket.on("checkGameState", () => {
-        socket.emit("checkedState", gameState.gameRunning);
+        socket.emit("checkedState", gameState.gameRunning, gameState.language);
     });
 
     socket.on("startGame", (language) => {
         gameState.initializeGame(language);
-        io.emit("checkedState", gameState.gameRunning);
-        io.emit("joinGame", gameState)
+        io.emit("joinGame", gameState);
+        io.emit("checkedState", gameState.gameRunning, gameState.language);
     })
 
 // game page

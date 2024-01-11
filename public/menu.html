@@ -12,7 +12,6 @@
         <div class="Instruction">
             <button id="inst" onclick="location.href='instruction'">Instructions</button>
         </div>
-        <button id="joinGame" onclick="location.href='game'" disabled>JOIN GAME</button>
         <div class="newGameMenu">
             <fieldset>
                 <legend>SELECT LANGUAGE OF THE WORDS:</legend>
@@ -27,7 +26,13 @@
                     <label for="SPA">SPANISH</label>
                   </div>
               </fieldset>
-            <button id="startGame" ondblclick="startGame()">START GAME</div>
+              <button id="startGame" ondblclick="startGame()">START GAME</button>
+        </div>
+        <div class="joinGameMenu">
+            <fieldset>
+                <legend id="info"></legend>
+                <button id="joinGame" onclick="location.href='game'" disabled>JOIN GAME</button>
+            </fieldset>
         </div>
     </div>
 
@@ -36,11 +41,16 @@
         const socket = io();
         socket.emit("checkGameState");
 
-        socket.on("checkedState", (gameRunning) => {
-            if (!gameRunning)
+        socket.on("checkedState", (gameRunning, language) => {
+            const info = document.getElementById("info");
+            if (!gameRunning) {
                 document.getElementById("joinGame").disabled = true;
-            else
+                info.textContent = "START NEW GAME TO PLAY";
+            }
+            else {
                 document.getElementById("joinGame").disabled = false;
+                info.textContent = "THE GAME IS RUNNING (" + language + ")";
+            }
         });
 
         function startGame() {
