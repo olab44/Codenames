@@ -27,7 +27,7 @@ app.get("/:name", (req, res) => {
 
 io.on("connection", (socket) => {
 
-// menu page
+// MENU PAGE
 
     socket.on("checkGameState", () => {
         socket.emit("checkedState", gameState.gameRunning, gameState.language);
@@ -39,25 +39,21 @@ io.on("connection", (socket) => {
         io.emit("checkedState", gameState.gameRunning, gameState.language);
     })
 
-// game page
+// GAME PAGE
 
     socket.on("newGame", () => {
         gameState.initializeGame(gameState.language);
         io.emit("newGame");
-        io.emit("joinGame", gameState);
+        io.emit("renderGame", gameState);
     });
 
-    socket.on("joinGame", () => {
-        io.emit("joinGame", gameState);
-    });
+    socket.on("joinGame", () => {   io.emit("renderGame", gameState);   });
 
-    socket.on("update", () => {
-        socket.emit("update", gameState);
-    });
+    socket.on("changeRole", () => { socket.emit("changedRole", gameState);  });
 
-    socket.on("turnPassed", () => {
+    socket.on("passTurn", () => {
         changeTurn();
-        io.emit("update", gameState);
+        io.emit("turnPassed", gameState);
     });
 
     socket.on("clueSubmit", (newClue, clueNumber) => {
@@ -66,12 +62,12 @@ io.on("connection", (socket) => {
         if (gameState.isBlueTurn) { gameState.blueHistory.push(newClue + " " + clueNumber); }
         else { gameState.redHistory.push(newClue + " " + clueNumber); }
         gameState.moveCounter = clueNumber + 1;
-        io.emit("update", gameState);
+        io.emit("submittedClue", gameState);
     });
 
     socket.on("revealBoard", ()=> {
         revealAllCards();
-        io.emit("update", gameState);
+        io.emit("boardRevealed", gameState);
     });
 
     socket.on("revealCard", (index) => {
@@ -113,7 +109,7 @@ io.on("connection", (socket) => {
             gameState.gameRunning = false;
         }
 
-        io.emit("update", gameState);
+        io.emit("renderGame", gameState);
     });
 
 });

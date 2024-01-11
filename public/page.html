@@ -37,10 +37,10 @@
   </div>
 
   <div id="endGameBox" hidden>
-    <p>The game has ended</p>
-    <p id="winner">winner: </p>
-    <button id="revealBoardButton" onclick="revealAllCards()">Reveal the board</button>
-    <button id="newGameButton" onclick="playNewGame()">Start new game</button>
+    <p>THE GAME HAS ENDED</p>
+    <p id="winner">WINNER: </p>
+    <button id="revealBoardButton" onclick="revealAllCards()">Reveal The Board</button>
+    <button id="newGameButton" onclick="restartGame()">New Game</button>
   </div>
 
   <div id="sidebar" class="sidebar">
@@ -63,7 +63,9 @@
     let isSpymaster = false;
     socket.emit("joinGame")
 
-    socket.on("update", (gameState) => {
+    // REACTIONS
+
+    socket.on("renderGame", (gameState) => {
       updateCardsCount(gameState.blueCards, gameState.redCards);
       showClueInput(gameState.currentClue);
       displayMoveCounter(gameState.moveCounter);
@@ -72,22 +74,60 @@
       updateClueHistory(gameState.blueHistory, gameState.redHistory);
     });
 
-    socket.on("joinGame", (gameState) => {
-      updateCardsCount(gameState.blueCards, gameState.redCards);
+    socket.on("gameEnded", (winner) => { endGame(winner); });
+
+    socket.on("newGame", () => {
+      document.getElementById('endGameBox').hidden = true;
+      document.getElementById('clueInputWord').readOnly = false;
+      document.getElementById('clueInputNumber').readOnly = false;
+      document.getElementById('submitClueButton').disabled = false;
+      document.getElementById('passButton').disabled = false;
+    })
+
+    socket.on("changedRole", (gameState) => {
+      showClueInput(gameState.currentClue);
+      renderBoard(gameState.gameBoard, gameState.moveCounter, gameState.gameRunning);
+    });
+
+    socket.on("turnPassed", (gameState) => {
       showClueInput(gameState.currentClue);
       displayMoveCounter(gameState.moveCounter);
       changeTurn(gameState.isBlueTurn);
+    });
+
+    socket.on("submittedClue", (gameState) => {
+      showClueInput(gameState.currentClue);
+      displayMoveCounter(gameState.moveCounter);
       renderBoard(gameState.gameBoard, gameState.moveCounter, gameState.gameRunning);
       updateClueHistory(gameState.blueHistory, gameState.redHistory);
     });
 
-    function restartGame() {
-      socket.emit("newGame");
-    }
+    socket.on("boardRevealed", (gameState) => {
+      renderBoard(gameState.gameBoard, gameState.moveCounter, gameState.gameRunning);
+    });
+
+    // SIGNALS
+
+    function restartGame() {  socket.emit("newGame"); }
 
     function mainMenu() {
       location.href = location.href.substring(0, location.href.lastIndexOf("/"));
     }
+
+    function revealAllCards() { socket.emit("revealBoard"); }
+
+    function changeRole() {
+      isSpymaster = !isSpymaster;
+      socket.emit("changeRole");
+    }
+
+    function passTurn() {
+      if (document.getElementById("clueDisplayWord").innerText != "") {
+        socket.emit("passTurn");
+      }
+    }
+
+    // GUI RENDERING
 
     function updateClueHistory(blueHistory, redHistory) {
       const blues = document.getElementById('blueHistory');
@@ -108,43 +148,6 @@
       }
       blues.scrollTop = blues.scrollHeight;
       reds.scrollTop = reds.scrollHeight;
-    }
-
-    socket.on("gameEnded", (winner) => { endGame(winner); });
-
-    socket.on("newGame", () => {
-      document.getElementById('endGameBox').setAttribute("hidden", true);
-      document.getElementById('clueInputWord').readOnly = false;
-      document.getElementById('clueInputNumber').readOnly = false;
-      document.getElementById('submitClueButton').disabled = false;
-      document.getElementById('passButton').disabled = false;
-    })
-
-    function endGame(winner) {
-      document.getElementById('endGameBox').removeAttribute("hidden");
-      document.getElementById('winner').textContent = "Winner: " + winner;
-      dragElement(document.getElementById("endGameBox"));
-      document.getElementById('clueInputWord').readOnly = true;
-      document.getElementById('clueInputNumber').readOnly = true;
-      document.getElementById('submitClueButton').disabled = true;
-      document.getElementById('passButton').disabled = true;
-    }
-
-    function revealAllCards() { socket.emit("revealBoard"); }
-
-    function playNewGame(){
-      socket.emit("newGame");
-    }
-
-    function changeRole() {
-      isSpymaster = !isSpymaster;
-      socket.emit("update");
-    }
-
-    function passTurn() {
-      if (document.getElementById("clueDisplayWord").innerText != "") {
-        socket.emit("turnPassed");
-      }
     }
 
     function submitClue() {
@@ -243,10 +246,17 @@
       }
     }
 
-    function sidebar() {
-      document.getElementById("sidebar").classList.toggle("expanded");
-      document.getElementById("sidebarContent").classList.toggle("expanded");
+    function endGame(winner) {
+      document.getElementById('endGameBox').hidden = false;
+      document.getElementById('winner').textContent = "Winner: " + winner;
+      dragElement(document.getElementById("endGameBox"));
+      document.getElementById('clueInputWord').readOnly = true;
+      document.getElementById('clueInputNumber').readOnly = true;
+      document.getElementById('submitClueButton').disabled = true;
+      document.getElementById('passButton').disabled = true;
     }
+
+    // CLUE VALIDATION
 
     function validateClue(clueWord, clueNumber) {
       if (!(clueNumber > 0 && clueNumber <= 9)) { return false; }
@@ -258,6 +268,13 @@
         }
       })
       return !invalidFound;
+    }
+
+    // SIDEBAR | END GAME MENU
+
+    function sidebar() {
+      document.getElementById("sidebar").classList.toggle("expanded");
+      document.getElementById("sidebarContent").classList.toggle("expanded");
     }
 
     function dragElement(elmnt) {
