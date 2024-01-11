@@ -61,7 +61,7 @@
   <script>
     const socket = io();
     let isSpymaster = false;
-    socket.emit("update")
+    socket.emit("joinGame")
 
     socket.on("update", (gameState) => {
       updateCardsCount(gameState.blueCards, gameState.redCards);
@@ -205,9 +205,8 @@
     function renderBoard(gameBoard, moveCounter) {
       const board = document.getElementById('board');
       board.innerHTML = '';
-
       for (let i = 0; i < 25; i++) {
-        let gameCard = gameBoard[i];
+        let gameCard = gameBoard.tiles[i];
         const card = document.createElement("div");
         card.className = "card";
         card.textContent = gameCard.word;

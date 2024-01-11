@@ -43,8 +43,8 @@ io.on("connection", (socket) => {
 
     socket.on("newGame", () => {
         gameState.initializeGame(gameState.language);
-        io.emit("joinGame", gameState);
         io.emit("newGame");
+        io.emit("joinGame", gameState);
     });
 
     socket.on("joinGame", () => {
@@ -52,7 +52,7 @@ io.on("connection", (socket) => {
     });
 
     socket.on("update", () => {
-        socket.emit("joinGame", gameState);
+        socket.emit("update", gameState);
     });
 
     socket.on("turnPassed", () => {
@@ -75,7 +75,7 @@ io.on("connection", (socket) => {
     });
 
     socket.on("revealCard", (index) => {
-        const card = gameState.gameBoard[index];
+        const card = gameState.gameBoard.tiles[index];
         card.revealed = true;
         const cardColor = card.color;
 
@@ -126,7 +126,7 @@ function changeTurn() {
 
 function revealAllCards() {
   for (let i = 0; i < 25; i++) {
-    gameState.gameBoard[i].revealed = true;
+    gameState.gameBoard.tiles[i].revealed = true;
   }
 }
 

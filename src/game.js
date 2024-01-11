@@ -3,7 +3,7 @@
 
 class GameState {
     constructor() {
-        this.gameBoard = [];
+        this.gameBoard = new Board();
         this.isBlueTurn = true;
         this.blueCards = 9;
         this.redCards = 8;
@@ -15,16 +15,16 @@ class GameState {
         this.language = null
     }
 
-    async initializeGame() {
-        try {
-            let gboard = new Board();
-            await gboard.initializeBoard();
-            const cards = await gboard.tiles;
-            this.gameBoard = gboard.tiles;
-        } catch (error) {
-            console.error('Error initializing game:', error);
-        }
-    }
+    // async initializeGame() {
+    //     try {
+    //         let gboard = new Board();
+    //         await gboard.initializeBoard();
+    //         const cards = await gboard.tiles;
+    //         this.gameBoard = gboard.tiles;
+    //     } catch (error) {
+    //         console.error('Error initializing game:', error);
+    //     }
+    // }
 
     initializeGame(language="ENG") {
         this.clearState();
@@ -36,13 +36,11 @@ class GameState {
         this.blueCards = (blueTurn === 0) ? 9 : 8;
         this.redCards = (blueTurn === 0) ? 8 : 9;
 
-        let gboard2 = new Board();
-        gboard2.createBoard(this.language, this.blueCards, this.redCards);
-        this.gameBoard = gboard2.tiles;
+        this.gameBoard.createBoard(this.language, this.blueCards, this.redCards);
     }
 
     displayGameBoard() {
-        if (this.gameBoard.length === 0) {
+        if (this.gameBoard.tiles.length === 0) {
             console.log('Game board not initialized. Call initializeGame first.');
         } else {
             console.log('Game Board:');
@@ -53,13 +51,8 @@ class GameState {
     }
 
     clearState() {
-        this.gameBoard = [];
-        this.isBlueTurn = true;
-        this.blueCards = 8;
-        this.redCards = 8;
         this.moveCounter = null;
         this.currentClue = [null, null];
-        this.gameRunning = false;
         this.blueHistory = [];
         this.redHistory = [];
     }
@@ -88,28 +81,29 @@ class Board {
     constructor() {
         this.tiles = [];
     }
-    async initializeBoard() {
-        try {
-          const { codenamesData } = await getAllData();
-          let i;
-          const randomWords = getRandomWords(codenamesData, 25);
-          for (i = 0; i < blueCards; i++) { this.tiles.push(new Card(randomWords[i].word_text, 'blue'));}
-          for (i = 0; i < redCards; i++) { this.tiles.push(new Card(randomWords[i+blueCards].word_text, 'red'));}
-          for (i = 0; i < 7; i++) { this.tiles.push(new Card(randomWords[i+17].word_text, 'yellow'));}
-          this.tiles.push(new Card(randomWords[24].word_text, 'black'));
-          shuffle(this.tiles);;
-        }
-        catch (error) {
-          console.error('Error initializing board:', error);
-        }
-    }
+    // async initializeBoard(language, blueCards, redCards) {
+    //     try {
+    //       const { codenamesData } = await getAllData();
+    //       let i;
+    //       const randomWords = getRandomWords(codenamesData, 25);
+    //       for (i = 0; i < blueCards; i++) { this.tiles.push(new Card(randomWords[i].word_text, 'blue'));}
+    //       for (i = 0; i < redCards; i++) { this.tiles.push(new Card(randomWords[i+blueCards].word_text, 'red'));}
+    //       for (i = 0; i < 7; i++) { this.tiles.push(new Card(randomWords[i+17].word_text, 'yellow'));}
+    //       this.tiles.push(new Card(randomWords[24].word_text, 'black'));
+    //       shuffle(this.tiles);;
+    //     }
+    //     catch (error) {
+    //       console.error('Error initializing board:', error);
+    //     }
+    // }
 
     createBoard(language, blueCards, redCards) {
         const data = fetchWords('src/words.json');
         let i;
         const game_words = getRandomWords(data, 25);
-        for (i = 0; i < 9; i++) { this.tiles.push(new Card(game_words[i][language], 'blue'));}
-        for (i = 0; i < 8; i++) { this.tiles.push(new Card(game_words[i+9][language], 'red'));}
+        this.tiles = [];
+        for (i = 0; i < blueCards; i++) { this.tiles.push(new Card(game_words[i][language], 'blue'));}
+        for (i = 0; i < redCards; i++) { this.tiles.push(new Card(game_words[i+blueCards][language], 'red'));}
         for (i = 0; i < 7; i++) { this.tiles.push(new Card(game_words[i+17][language], 'yellow'));}
         this.tiles.push(new Card(game_words[24][language], 'black'));
         shuffle(this.tiles);
