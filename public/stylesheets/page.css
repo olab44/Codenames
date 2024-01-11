@@ -140,6 +140,18 @@ body.redTurn {
 #clueInput[hidden] {
   display: none;
 }
+#clueValidity {
+  color: white;
+  background-color: rgb(40, 40, 40);
+  border: 2px solid black;
+  border-radius: 5px;
+  padding: 2px;
+  margin-top: 5px;
+}
+
+#clueValidity[hidden] {
+  display: none;
+}
 
 #passButton {
   position: absolute;

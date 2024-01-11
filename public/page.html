@@ -31,7 +31,7 @@
             oninvalid="this.setCustomValidity('Cannot be left blank')"
             oninput="this.setCustomValidity('')">
       <button id="submitClueButton" onclick="submitClue()">Submit Clue</button>
-      <span id="cluevalidity"></span>
+      <div id="clueValidity" hidden></div>
   </div>
     <button id="passButton" onclick="passTurn()">Pass Turn</button>
   </div>
@@ -128,7 +128,6 @@
       document.getElementById('clueInputNumber').readOnly = true;
       document.getElementById('submitClueButton').disabled = true;
       document.getElementById('passButton').disabled = true;
-      const cards = document.getElementsByClassName('card');
     }
 
     function revealAllCards() { socket.emit("revealBoard"); }
@@ -149,19 +148,24 @@
     }
 
     function submitClue() {
+      const clueMessage = document.getElementById("clueValidity");
       if (document.getElementById("clueDisplayWord").innerText == ""){
         const newClue = document.getElementById("clueInputWord").value;
         const clueNumber = document.getElementById("clueInputNumber").valueAsNumber;
-        const clueMessage = document.getElementById("cluevalidity");
 
         if (validateClue(newClue, clueNumber)) {
           document.getElementById("clueInputWord").value = "";
           document.getElementById("clueInputNumber").value = "";
-          clueMessage.textContent = "";
+          clueMessage.hidden = true;
           socket.emit("clueSubmit", newClue, clueNumber);
         } else {
+          clueMessage.hidden = false;
           clueMessage.textContent = "Forbidden clue, try again";
         }
+      }
+      else {
+        clueMessage.hidden = false;
+        clueMessage.textContent = "The clue has already been given";
       }
     }
 
@@ -174,11 +178,11 @@
       clueWord.textContent = clue[0];
       clueNumber.textContent = clue[1];
       if (isSpymaster) {
-        input.removeAttribute("hidden");
-        changeButton.setAttribute("hidden", true);
+        input.hidden = false;
+        changeButton.hidden = true;
       } else {
-        input.setAttribute("hidden", true);
-        changeButton.removeAttribute("hidden");
+        input.hidden = true;
+        changeButton.hidden = false;
       }
     }
 
@@ -193,6 +197,8 @@
     }
 
     function changeTurn(isBlueTurn) {
+      const clueMessage = document.getElementById("clueValidity");
+      clueMessage.hidden = true;
       if (isBlueTurn) {
         document.body.classList.add("blueTurn");
         document.body.classList.remove("redTurn");
