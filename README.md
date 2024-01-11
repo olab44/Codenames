@@ -93,17 +93,31 @@ priorytetem była fukncjonalność, aby zapewnić przeprowadzenie podstawowej ro
 - dołączenie do gry po wpisaniu gameID
 - wybór języka słów
 
-# podział pracy 
 
-- Aleksandra Buczma
-  - baza słów
-  - tworzenie planszy
+# APLIKACJA - FUNKCJONALNOŚĆ
 
-- Zofia Jasina
-  - tworzenie serwera
-  - synchronizacja między urządzeniami
-  - implementacja GUI
+# serwer
+- możliwość wspólnego grania po podłączeniu do sieci lokalnej
+- aktualizacja stanu gry na wielu urządzeniach
 
+# tworzenie rozgrywki
+- jedna gra na serwerze
+- możliwość wyboru języka słów na planszy
+- szczegółowa instrukcja gry w podstronie instructions
+- możliwość restartu rozgrywki w dowolnym momencie
 
-- Julian Mossakowski
-  - podpowiedzi
+# rozgrywka
+  - obsługa gry zgodnie z zasadami, w tym tej o dodatkowym ruchu.
+  - historia podpowiedzi
+  - licznik kart każdej z drużyn
+  - menu (nowa gra, zmiana roli, powrót do menu głównego)
+  - kontrola podpowiedzi szefów
+    - tylko litery, brak liczb
+    - jedno słowo, nie może występować na planszy, ani jego fragment
+
+# zakończenie gry
+- zgodne z zasadami
+- po zakończeniu wyświetlane jest okienko (oraz puszczany sygnał dźwiękowy), które zawiera
+    - informację, która drużyna wygrała
+    - opcję nowej gry
+    - pokazanie planszy z układem kart
