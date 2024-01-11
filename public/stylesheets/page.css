@@ -243,7 +243,7 @@ body.redTurn {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  height: 50vh;
+  height: 30vh;
   width: 50vh;
   padding: 20px;
   background-color: rgb(40, 40, 40);
@@ -253,6 +253,16 @@ body.redTurn {
   cursor: move;
 }
 
-p {
+#label {
   color: white;
+  font-size: 2em;
+  -webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-color: black;
+  border-top: 2px solid black;
+  border-bottom: 2px solid black;
+  padding: 1vh 0;
+}
+#winner {
+  font-size: 2em;
+  -webkit-text-stroke-width: 2px;
 }

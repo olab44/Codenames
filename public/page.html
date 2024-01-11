@@ -37,10 +37,10 @@
   </div>
 
   <div id="endGameBox" hidden>
-    <p>THE GAME HAS ENDED</p>
+    <p id="label">THE GAME HAS ENDED</p>
     <p id="winner">WINNER: </p>
-    <button id="revealBoardButton" onclick="revealAllCards()">Reveal The Board</button>
-    <button id="newGameButton" onclick="restartGame()">New Game</button>
+    <button id="revealBoardButton" class="baseButton" onclick="revealAllCards()">Reveal The Board</button>
+    <button id="newGameButton" class="baseButton" onclick="restartGame()">New Game</button>
   </div>
 
   <div id="sidebar" class="sidebar">
@@ -61,6 +61,7 @@
   <script>
     const socket = io();
     let isSpymaster = false;
+    let audio = new Audio('./sound/victory-fanfare.mp3');
     socket.emit("joinGame")
 
     // REACTIONS
@@ -247,8 +248,20 @@
     }
 
     function endGame(winner) {
+      audio.play();
+      const winnerDisplay = document.getElementById('winner');
       document.getElementById('endGameBox').hidden = false;
-      document.getElementById('winner').textContent = "Winner: " + winner;
+      switch (winner) {
+        case "BLUE":
+          winnerDisplay.classList.add("blueText");
+          winnerDisplay.classList.remove("redText");
+          break;
+        case "RED":
+          winnerDisplay.classList.add("redText");
+          winnerDisplay.classList.remove("blueText");
+          break;
+      }
+      winnerDisplay.textContent = "Winner: " + winner;
       dragElement(document.getElementById("endGameBox"));
       document.getElementById('clueInputWord').readOnly = true;
       document.getElementById('clueInputNumber').readOnly = true;

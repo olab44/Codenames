@@ -1,5 +1,5 @@
 #DAWANIE WSKAZÓWEK<br>
-Jeśli jesteś szefem, musisz wymyślić jednowyrazową wskazówkę powiązaną z kilkoma kryptonimami, które ma zgadnąć Twoja drużyna. 
+Jeśli jesteś szefem, musisz wymyślić jednowyrazową wskazówkę powiązaną z kilkoma kryptonimami, które ma zgadnąć Twoja drużyna.
 Gdy sądzisz, że Twoja wskazówka jest dobra, wpisujesz ją do przeznaczoneg do tego paska na dole, oraz obok podajesz liczbę słów, do których się ona odnosi, a następnie wciskasz "submit clue".<br>
 -Wskazówka musi być jednowyrazowa,<br>
 -Nie moze zawierać polskich znaków oraz liczb (te dodajesz w oddzielnym okienku),<br>
@@ -7,7 +7,7 @@ Gdy sądzisz, że Twoja wskazówka jest dobra, wpisujesz ją do przeznaczoneg
 <br> WAŻNE! - gdy podasz niepoprawną wskazówkę to system jej nie zaakceptuje i będzie wyświetlał odpowiedni komunikat, az nie poprawisz wskazówki.
 <br><br>
 
-#KONTAKT<<br>
+#KONTAKT<br>
 Gdy szef da wskazówkę, tajniacy z jego drużyny próbują odgadnąć jej znaczenie. Mogą dyskutować o swoich domysłach, ale dopiero gdy jeden z tajniaków zaznaczy kartę ze słowem, uznaje się to za oficjalną odpowiedź. Po dotknięciu kolor karty zostaje odsłonięty.<br>
 • Jeśli tajniak dotknie karty należącej do jego bądź jej drużyny Drużyna może zgadywać kolejne słowo (ale nie dostaje nowej wskazówki).<br>
 • Jeśli tajniak dotknie niewinnego obserwatora, kończy to turę tej drużyny.<br>
@@ -20,7 +20,7 @@ Gdy szef da wskazówkę, tajniacy z jego drużyny próbują odgadnąć je
 Tajniacy zawsze powinni spróbować zgadnąć przynajmniej jedno słowo, ale w Każdej chwili mozna zakończyć zgadywanie przyciskiem "pass turn". <br>
 Każdy zły strzał natychmiast kończy turę, ale jeśli tajniacy zgadną słowo swojego koloru, mogą zgadywać dalej.
 Możecie spróbować zgadnąć jedno dodatkowe słowo, niz podał szef <br>
-Nad planszą wyświetla się liczba ruchów podana przez szefa, natomiast zawsze macie +1 dodatkowy ruch -faktyczny licznik ruchów wyświetla się na czarno-szarym okienku po lewo. 
+Nad planszą wyświetla się liczba ruchów podana przez szefa, natomiast zawsze macie +1 dodatkowy ruch -faktyczny licznik ruchów wyświetla się na czarno-szarym okienku po lewo.
 Mozecie zgadnac słowo z poprzednich wskazówek.<br<br>
 
 Przykład. Pierwszą wskazówką Drużyny Czerwonych był wampir: 2. Tajniak stawiał na słowa KRÓLOWA i NOC. Tajniak dotknął najpierw kryptonimu KRÓLOWA. Był to niewinny obserwator, tajniak nie miał więc już szansy zgadnąć słowa NOC.
