@@ -73,6 +73,7 @@ body.redTurn {
   justify-content: center;
   cursor: pointer;
   user-select: none;
+  font-size: 0.8em;
 }
 .card.red {
   background-color: #ff6060;
