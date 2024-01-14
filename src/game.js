@@ -142,7 +142,28 @@ function fetchWords(filePath) {
     }
 }
 
-module.exports = { GameState };
+
+class Timer {
+    constructor() {
+        this.seconds = 0;
+        this.minutes = 0;
+        this.id = null;
+    }
+
+    increment() {
+        this.seconds += 1;
+        if (this.seconds === 60) {
+            this.seconds = 0;
+            this.minutes += 1;
+        }
+    }
+
+    reset() {
+        this.seconds = 0;
+        this.minutes = 0;
+    }
+}
+module.exports = { GameState, Timer };
 
 
 

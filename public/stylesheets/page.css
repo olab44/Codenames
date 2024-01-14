@@ -14,10 +14,15 @@ body.redTurn {
   background-image: url(../images/background_red.png);
 }
 
-#moveCounterDisplay {
+#turnInfoDisplay {
   position: fixed;
   top: 12vh;
   left: 10vh;
+  display: grid;
+  gap: 1vh;
+}
+
+#moveCounterDisplay {
   width: 20vh;
   height: 12vh;
   text-align: center;
@@ -29,6 +34,49 @@ body.redTurn {
   background-color: rgb(40, 40, 40);
   border: 5px solid black;
   border-radius: 5px;
+  margin-bottom: 2vh;
+}
+
+#timer {
+  width: 15vh;
+  height: 15vh;
+  margin: auto;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(40, 40, 40);
+  border: 5px solid black;
+  border-radius: 50%;
+}
+#timer.on {
+  border-top: 5px double green;
+  animation: spin 7s linear infinite;
+}
+#caption {
+  color: white;
+}
+#caption.on {
+  animation: reverse_spin 7s linear infinite;
+}
+@keyframes spin{
+  to {
+      transform: rotate(360deg);
+  }
+}
+@keyframes reverse_spin{
+  to {
+      transform: rotate(-360deg);
+  }
+}
+
+#timerButton {
+  width: 50%;
+  margin: auto;
+  color: white;
+  background-color: rgb(40, 40, 40);
+  border: 5px solid black;
+  border-radius: 5px;
 }
 
 #buttonSection {
@@ -36,7 +84,7 @@ body.redTurn {
   bottom: 12vh;
   left: 10vh;
   display: grid;
-  grid-gap: 2vh;
+  gap: 2vh;
 }
 .baseButton {
   width: 20vh;
@@ -128,7 +176,7 @@ body.redTurn {
   height: 5vh;
   margin-left: 4px;
   margin-top: 3px;
-  background-color: #158b19;
+  background-color: green;
   color: black;
   border: 2px;
   border-radius: 5px;
@@ -243,7 +291,7 @@ body.redTurn {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  height: 30vh;
+  height: fit-content;
   width: 50vh;
   padding: 20px;
   background-color: rgb(40, 40, 40);

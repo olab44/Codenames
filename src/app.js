@@ -10,8 +10,9 @@ const io = socketIO(server);
 app.use(express.static(path.resolve(__dirname, "../public")));
 app.use(express.urlencoded({ extended: true }));
 
-const { GameState } = require('./game');
+const { GameState, Timer } = require('./game');
 let gameState = new GameState();
+let timer = new Timer();
 
 app.get("/", (req, res) => {
     res.sendFile(path.resolve(__dirname, "../public/menu.html"));
@@ -35,7 +36,8 @@ io.on("connection", (socket) => {
 
     socket.on("startGame", (language) => {
         gameState.initializeGame(language);
-        io.emit("joinGame", gameState);
+        timerStop();
+        io.emit("renderGame", gameState);
         io.emit("checkedState", gameState.gameRunning, gameState.language);
     })
 
@@ -43,17 +45,21 @@ io.on("connection", (socket) => {
 
     socket.on("newGame", () => {
         gameState.initializeGame(gameState.language);
+        timerStop();
         io.emit("newGame");
         io.emit("renderGame", gameState);
     });
 
-    socket.on("joinGame", () => {   io.emit("renderGame", gameState);   });
+    socket.on("joinGame", () => {
+        io.emit("renderGame", gameState);
+    });
 
     socket.on("changeRole", () => { socket.emit("changedRole", gameState);  });
 
     socket.on("passTurn", () => {
         changeTurn();
         io.emit("turnPassed", gameState);
+        io.emit("resetTimer");
     });
 
     socket.on("clueSubmit", (newClue, clueNumber) => {
@@ -91,6 +97,7 @@ io.on("connection", (socket) => {
         case "black":
             let winner = (gameState.isBlueTurn === true) ? "RED" : "BLUE";
             io.emit("gameEnded", winner);
+            timerStop();
             gameState.gameRunning = false;
             break;
         }
@@ -101,31 +108,61 @@ io.on("connection", (socket) => {
 
         if (gameState.blueCards === 0) {
             io.emit("gameEnded", "BLUE");
+            timerStop();
             gameState.gameRunning = false;
         }
 
         if (gameState.redCards === 0) {
             io.emit("gameEnded", "RED");
+            timerStop();
             gameState.gameRunning = false;
         }
 
         io.emit("renderGame", gameState);
     });
 
+    socket.on("askTimer", () => {
+        if (timer.id !== null) {
+            socket.emit("timerResponse");
+        }
+    });
+
+    socket.on("toggleTimer", () => {
+        if (timer.id === null) {
+            timer.id = setInterval(timing, 1000);
+            io.emit("timerOn");
+        }
+        else {
+            timerStop();
+        }
+    });
+
+    function timing() {
+        timer.increment();
+        io.emit("updateTimer", timer.minutes, timer.seconds);
+    }
+
+    function timerStop() {
+        clearInterval(timer.id);
+        timer.id = null;
+        timer.reset();
+        io.emit("timerOff");
+    }
+
 });
 
 function changeTurn() {
-  gameState.isBlueTurn = !gameState.isBlueTurn;
-  gameState.currentClue = [null, null];
-  gameState.moveCounter = null;
+    timer.reset();
+    gameState.isBlueTurn = !gameState.isBlueTurn;
+    gameState.currentClue = [null, null];
+    gameState.moveCounter = null;
 }
 
 function revealAllCards() {
-  for (let i = 0; i < 25; i++) {
-    gameState.gameBoard.tiles[i].revealed = true;
-  }
+    for (let i = 0; i < 25; i++) {
+        gameState.gameBoard.tiles[i].revealed = true;
+    }
 }
-
 
 const PORT = 3000;
 server.listen(PORT, "0.0.0.0", () => {

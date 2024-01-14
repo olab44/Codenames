@@ -11,7 +11,13 @@
 
 <body>
 
-  <div id="moveCounterDisplay"></div>
+  <div id="turnInfoDisplay">
+    <div id="moveCounterDisplay"></div>
+    <div id="timer">
+      <span id="caption"></span>
+    </div>
+    <button id="timerButton" onclick="toggleTimer()">ON/OFF</button>
+  </div>
 
   <div id="buttonSection">
     <button class="baseButton" onclick="changeRole()">Change Role</button>
@@ -127,6 +133,36 @@
         socket.emit("passTurn");
       }
     }
+
+    // TIMER
+    socket.emit("askTimer");
+
+    socket.on("timerResponse", () => {
+      document.getElementById("timer").classList.add("on");
+      document.getElementById("caption").classList.add("on");
+    });
+
+    function toggleTimer() {
+      socket.emit("toggleTimer");
+    }
+
+    socket.on("timerOn", () => {
+      document.getElementById("timer").classList.add("on");
+      document.getElementById("caption").classList.add("on");
+      document.getElementById("caption").textContent = "00:00";
+    });
+
+    socket.on("timerOff", () => {
+      document.getElementById("timer").classList.remove("on");
+      document.getElementById("caption").classList.remove("on");
+      document.getElementById("caption").textContent = "";
+    });
+
+    socket.on("updateTimer", (minutes, seconds) => {
+      minutes = minutes < 10 ? "0" + minutes : minutes;
+      seconds = seconds < 10 ? "0" + seconds : seconds;
+      document.getElementById("caption").textContent = minutes + ":" + seconds;
+    });
 
     // GUI RENDERING
 
