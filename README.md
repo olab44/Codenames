@@ -53,7 +53,7 @@ figma: https://www.figma.com/file/qS4lVIp6AI6GBxw0a8AccO/CODENAMES?type=design&n
 
 
 
-## PROTOTYP 
+## PROTOTYP
 
 priorytetem była fukncjonalność, aby zapewnić przeprowadzenie podstawowej rozgrywki
 
@@ -74,9 +74,9 @@ priorytetem była fukncjonalność, aby zapewnić przeprowadzenie podstawowej ro
 
 - rozgrywka
   - podawanie podpowiedzi oraz liczby ruchów
-  - zaznaczanie kart 
+  - zaznaczanie kart
   - informacje o turze (czyja kolej, licznik pozostałych kart do odgadnięcia)
-  - zmiana tur po błędnym odgadnięciu 
+  - zmiana tur po błędnym odgadnięciu
   - zakończenie gry (informacja w konsoli)
 
 
@@ -85,7 +85,6 @@ priorytetem była fukncjonalność, aby zapewnić przeprowadzenie podstawowej ro
 
 - baza danych - ulepszenie serwera
 - historia podpowiedzi
-- tworzenie wielu rozgrywek na jednym serverze
 - liczba możliwych ruchów w turze zgodna z zasadami gry
 - podstrona z instrukcją gry
 - kontrola podpowiedzi dawanych przez szefów
@@ -121,3 +120,18 @@ priorytetem była fukncjonalność, aby zapewnić przeprowadzenie podstawowej ro
     - informację, która drużyna wygrała
     - opcję nowej gry
     - pokazanie planszy z układem kart
+
+# podział pracy
+
+- Aleksandra Buczma
+  - baza słów
+  - tworzenie planszy
+
+- Zofia Jasina
+  - tworzenie serwera
+  - synchronizacja między urządzeniami
+  - implementacja GUI
+
+
+- Julian Mossakowski
+  - podpowiedzi

@@ -1,0 +1,35 @@
+#GIVING TIPS<br>
+If you're the boss, you'll need to come up with a one-word clue paired with several codenames for your team to guess.
+When you think your clue is good, you enter it in the dedicated bar at the bottom, along with the number of words it refers to, and then press "submit clue".<br>
+*Example:
+Two of your words are DEATH and NIGHT. Both of them are associated with vampires, so you type vampire: 2.
+You can also give a single word clue (moon: 1), but the game is much more interesting when you aim for two words or even more.<br>
+-The clue must be one word,<br>
+-It cannot contain Polish characters and numbers (you add these in a separate window),<br>
+-Your clue cannot be any of the codenames visible on the table, or any part of it.<br>
+<br> IMPORTANT! - if you provide an incorrect tip, the system will not accept it and will display an appropriate message until you correct the tip.
+<br><br>
+
+#CONTACT<<br>
+When the boss gives a clue, the undercover cops on his team try to guess its meaning. They can discuss their guesses, but only when one of the undercover officers marks a card with the word is it considered an official answer. When touched, the card's suit is revealed.<br>
+• If an undercover cop touches a card belonging to his or her team, the team can guess the next word (but does not get a new clue).<br>
+• If an undercover cop touches an innocent bystander, it ends that team's turn.<br>
+• If an undercover cop touches a card belonging to the other team, that also ends that team's turn. And brings the opposing team closer to victory.<br>
+• If the undercover cop touches the killer, it's game over! The team that contacted the killer loses.<br>
+<br>Tip. Before the boss says his clue aloud, he should make sure that it is not associated with the killer's codename.<br>
+<br>
+
+#NUMBER OF APPROACHES <br>
+Undercover officers should always try to guess at least one word, but you can stop guessing at any time by pressing the "pass turn" button. <br>
+Any wrong shot immediately ends the turn, but if the undercover cops guess a word of their color, they can keep guessing.
+You can try to guess one additional word than the boss <br> provided
+The number of moves given by the boss is displayed above the board, but you always have +1 additional move - the actual move counter is displayed in the black and gray window on the left.
+You can guess the word from the previous clues.<br><br>
+
+Example. The Red Team's first clue was a vampire: 2. The undercover cop was betting on the words QUEEN and NIGHT. The undercover cop first touched on the code name QUEEN. He was an innocent bystander, so the undercover officer had no chance to guess the word NIGHT.
+The Blue team guessed two words on their turn. It's time for the Red Team again.
+Red's boss says animal: 3. Red's secret agent is sure that KANGUROUS is an animal, so he touches this card. The boss places the red agent card on the codename. So the Reds have another approach. FISH is too
+the undercover animal therefore touches this card. It's a red card again - the Reds can keep guessing.
+However, the undercover officer has no idea for the third word related to the animal. He chooses NIGHT. It has nothing to do with the animal - he guesses the word related to the previous clue.
+NIGHT is a red word. The undercover cop guessed 3 words in the turn with the animal clue: 3. He can guess again. He can try to guess the third animal word or the second vampire word. He can also stop guessing at this point and vote for the Blues.
+Each round you have one extra chance. In the example above, the undercover cop had 4 tries because his boss said the number 3. Once the undercover cops have guessed all their words, decided not to guess anymore, or guessed wrong, the other team's turn begins.

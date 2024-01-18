@@ -9,13 +9,63 @@
 <body>
     <img src="images/logo.png">
     <div class="gameMenu">
-        <form id="optionsForm" action="/redirect" method="post">
-            <input type="text" id="gameID" name="gameID" placeholder="Enter game ID" required
-            oninvalid="this.setCustomValidity('Cannot be left blank')"
-            oninput="this.setCustomValidity('')"/>
-            <button type="submit">Play</button>
-        </form>
+        <div class="Instruction">
+            <button id="inst" onclick="location.href='instruction'">Instructions</button>
+        </div>
+        <div class="newGameMenu">
+            <fieldset>
+                <legend>SELECT LANGUAGE OF THE WORDS:</legend>
+                <div>
+                    <input type="radio" id="ENG" name="language" value="ENG" checked />
+                    <label for="ENG">ENGLISH</label>
+                    <input type="radio" id="POL" name="language" value="POL"/>
+                    <label for="POL">POLISH</label>
+                    <input type="radio" id="GER" name="language" value="GER"/>
+                    <label for="GER">GERMAN</label>
+                    <input type="radio" id="SPA" name="language" value="SPA"/>
+                    <label for="SPA">SPANISH</label>
+                  </div>
+              </fieldset>
+              <button id="startGame" ondblclick="startGame()">START GAME</button>
+        </div>
+        <div class="joinGameMenu">
+            <fieldset>
+                <legend id="info"></legend>
+                <button id="joinGame" onclick="location.href='game'" disabled>JOIN GAME</button>
+            </fieldset>
+        </div>
     </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        socket.emit("checkGameState");
+
+        socket.on("checkedState", (gameRunning, language) => {
+            const info = document.getElementById("info");
+            if (!gameRunning) {
+                document.getElementById("joinGame").disabled = true;
+                info.textContent = "START NEW GAME TO PLAY";
+            }
+            else {
+                document.getElementById("joinGame").disabled = false;
+                info.textContent = "THE GAME IS RUNNING (" + language + ")";
+            }
+        });
+
+        function startGame() {
+            const radios = document.getElementsByName("language");
+            let language;
+            for (var i = 0, length = radios.length; i < length; i++) {
+                if (radios[i].checked) {
+                    language = radios[i].value;
+                    break;
+                }
+            }
+            socket.emit("startGame", language);
+        }
+
+    </script>
 </body>
 </head>
 </html>

@@ -3,34 +3,44 @@
 
 class GameState {
     constructor() {
-        this.gameBoard = [];
+        this.gameBoard = new Board();
         this.isBlueTurn = true;
         this.blueCards = 9;
         this.redCards = 8;
         this.moveCounter = null;
-        this.currentClue = "";
-        this.gameEnded = false;
+        this.currentClue = [null, null];
+        this.gameRunning = false;
+        this.blueHistory = [];
+        this.redHistory = [];
+        this.language = null
     }
 
-    async initializeGame() {
-        try {
-            let gboard = new Board();
-            await gboard.initializeBoard();
-            const cards = await gboard.tiles;
-            this.gameBoard = gboard.tiles;
-        } catch (error) {
-            console.error('Error initializing game:', error);
-        }
-    }
+    // async initializeGame() {
+    //     try {
+    //         let gboard = new Board();
+    //         await gboard.initializeBoard();
+    //         const cards = await gboard.tiles;
+    //         this.gameBoard = gboard.tiles;
+    //     } catch (error) {
+    //         console.error('Error initializing game:', error);
+    //     }
+    // }
 
-    initializeGame() {
-        let gboard2 = new Board();
-        gboard2.createBoard();
-        this.gameBoard = gboard2.tiles;
+    initializeGame(language="ENG") {
+        this.clearState();
+        this.language = language;
+        this.gameRunning = true;
+
+        const blueTurn = Math.floor(Math.random() * 2);
+        this.isBlueTurn = (blueTurn === 0) ? true : false;
+        this.blueCards = (blueTurn === 0) ? 9 : 8;
+        this.redCards = (blueTurn === 0) ? 8 : 9;
+
+        this.gameBoard.createBoard(this.language, this.blueCards, this.redCards);
     }
 
     displayGameBoard() {
-        if (this.gameBoard.length === 0) {
+        if (this.gameBoard.tiles.length === 0) {
             console.log('Game board not initialized. Call initializeGame first.');
         } else {
             console.log('Game Board:');
@@ -38,6 +48,13 @@ class GameState {
                 console.log(`Tile ${index + 1}:`, tile.word, tile.color);
             });
         }
+    }
+
+    clearState() {
+        this.moveCounter = null;
+        this.currentClue = [null, null];
+        this.blueHistory = [];
+        this.redHistory = [];
     }
 }
 
@@ -64,30 +81,31 @@ class Board {
     constructor() {
         this.tiles = [];
     }
-    async initializeBoard() {
-        try {
-          const { codenamesData } = await getAllData();
-          let i;
-          const randomWords = getRandomWords(codenamesData, 25);
-          for (i = 0; i < 9; i++) { this.tiles.push(new Card(randomWords[i].word_text, 'blue'));}
-          for (i = 0; i < 8; i++) { this.tiles.push(new Card(randomWords[i+9].word_text, 'red'));}
-          for (i = 0; i < 7; i++) { this.tiles.push(new Card(randomWords[i+17].word_text, 'yellow'));}
-          this.tiles.push(new Card(randomWords[24].word_text, 'black'));
-          shuffle(this.tiles);;
-        }
-        catch (error) {
-          console.error('Error initializing board:', error);
-        }
-    }
+    // async initializeBoard(language, blueCards, redCards) {
+    //     try {
+    //       const { codenamesData } = await getAllData();
+    //       let i;
+    //       const randomWords = getRandomWords(codenamesData, 25);
+    //       for (i = 0; i < blueCards; i++) { this.tiles.push(new Card(randomWords[i].word_text, 'blue'));}
+    //       for (i = 0; i < redCards; i++) { this.tiles.push(new Card(randomWords[i+blueCards].word_text, 'red'));}
+    //       for (i = 0; i < 7; i++) { this.tiles.push(new Card(randomWords[i+17].word_text, 'yellow'));}
+    //       this.tiles.push(new Card(randomWords[24].word_text, 'black'));
+    //       shuffle(this.tiles);;
+    //     }
+    //     catch (error) {
+    //       console.error('Error initializing board:', error);
+    //     }
+    // }
 
-    createBoard() {
+    createBoard(language, blueCards, redCards) {
         const data = fetchWords('src/words.json');
         let i;
         const game_words = getRandomWords(data, 25);
-        for (i = 0; i < 9; i++) { this.tiles.push(new Card(game_words[i].word, 'blue'));}
-        for (i = 0; i < 8; i++) { this.tiles.push(new Card(game_words[i+9].word, 'red'));}
-        for (i = 0; i < 7; i++) { this.tiles.push(new Card(game_words[i+17].word, 'yellow'));}
-        this.tiles.push(new Card(game_words[24].word, 'black'));
+        this.tiles = [];
+        for (i = 0; i < blueCards; i++) { this.tiles.push(new Card(game_words[i][language], 'blue'));}
+        for (i = 0; i < redCards; i++) { this.tiles.push(new Card(game_words[i+blueCards][language], 'red'));}
+        for (i = 0; i < 7; i++) { this.tiles.push(new Card(game_words[i+17][language], 'yellow'));}
+        this.tiles.push(new Card(game_words[24][language], 'black'));
         shuffle(this.tiles);
         return this.tiles;
     }
@@ -117,7 +135,6 @@ function fetchWords(filePath) {
     try {
       const jsonData = fs.readFileSync(filePath, 'utf-8');
       const parsedData = JSON.parse(jsonData);
-    //   console.log(parsedData);
       return parsedData;
       }
      catch (error) {
@@ -126,32 +143,28 @@ function fetchWords(filePath) {
 }
 
 
+class Timer {
+    constructor() {
+        this.seconds = 0;
+        this.minutes = 0;
+        this.id = null;
+    }
 
-module.exports = { GameState };
+    increment() {
+        this.seconds += 1;
+        if (this.seconds === 60) {
+            this.seconds = 0;
+            this.minutes += 1;
+        }
+    }
 
-// const gameState = new GameState();
-// gameState.initializeGame();
-// gameState.displayGameBoard();
-// process.exit();
-//     .then(() => {
-//         gameState.displayGameBoard();
-//         console.log(gameState);
-//         process.exit();
-//     })
+    reset() {
+        this.seconds = 0;
+        this.minutes = 0;
+    }
+}
+module.exports = { GameState, Timer };
 
-// gameBoard.initializeBoard()
-//     .then(() => {console.log(gameBoard.tiles);
-//         process.exit();
-//     })
-//   .then(() => {
-//     gameBoard.displayBoard();
-//   })
-//   .catch((error) => {
-//     console.error('Error:', error);
-//   })
-//   .finally(() => {
-//     process.exit();
-//   });
 
 
 

@@ -1,0 +1,8 @@
+The game ends in 3 cases
+<br>
+1. one of the teams reveals all its cards - it wins<br>
+2. your opponents guess your last words<br>
+3. one of the teams uncovers the killer (black card) - that team loses <br>
+<br>
+At the end of the game, a pop-up window shows who has won, and you can also see what the board looked like and whose cards were on which team.
+Then, if you want, you can start a new game. 

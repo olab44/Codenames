@@ -1,0 +1,75 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Codenames Game - Instructions</title>
+    <link rel="shorcut icon" type="image/x-icon" href="images/favicon.ico">
+    <link rel="stylesheet" href="stylesheets/instruction.css">
+</head>
+<body>
+    <img src="images/logo.png">
+    <button id="inst" onclick="location.href='menu.html'">Back to menu</button>
+    <button id="bl" onclick="changeLanguage('english')">English</button>
+    <button id="bl" onclick="changeLanguage('polish')">Polish</button>
+
+    <div class="gameMenu" id="instructionsContainer">
+        <h1 id="languageTitle">Instruction</h1>
+        <div id="section1" class="instructionBox">
+        </div>
+        <div id="section2" class="instructionBox">
+            <div><img src="images/enter.png"></div>
+            <div><img src="images/spymaster.png"></div>
+            <div><img src="images/agent.png" ></div>
+        </div>
+        <div id="section3" class="instructionBox"></div>
+        <div id="section4" class="instructionBox">
+            <div><img src="images/forbidden.png" ></div>
+            <div><img src="images/hints.png" ></div>
+            <div><img src="images/guessing.png" ></div>
+        </div>
+        <div id="section5" class="instructionBox"></div>
+        <div id="section6" class="instructionBox">
+            <div><img src="images/end.png" ></div>
+        </div>
+    </div>
+
+    <script>
+        function fetchAndDisplayContent(title, fileName, sectionId) {
+            fetch(fileName)
+                .then(response => response.text())
+                .then(content => {
+                    const instructionBox = document.getElementById(sectionId);
+                    instructionBox.innerHTML = '';
+                    
+                    const heading = document.createElement('h2');
+                    heading.textContent = title;
+
+                    const paragraph = document.createElement('p');
+                    paragraph.innerHTML = content;
+
+                    instructionBox.appendChild(heading);
+                    instructionBox.appendChild(paragraph);
+                })
+                .catch(error => console.error('Error fetching content:', error));
+        }
+
+        function changeLanguage(language) {
+            const languageTitle = document.getElementById('languageTitle');
+
+            if (language === 'english') {
+                languageTitle.innerText = 'Instruction';
+                fetchAndDisplayContent('Preparation', 'instructions/preparation.txt', 'section1');
+                fetchAndDisplayContent('Game', 'instructions/gameplay.txt', 'section3');
+                fetchAndDisplayContent('End', 'instructions/conclusion.txt', 'section5');
+            } else if (language === 'polish') {
+                languageTitle.innerText = 'Instrukcja';
+                fetchAndDisplayContent('Przygotowanie', 'instructions/przygotowanie.txt', 'section1');
+                fetchAndDisplayContent('Rozgrywka', 'instructions/rozgrywka.txt', 'section3');
+                fetchAndDisplayContent('Zakończenie', 'instructions/zakończenie.txt', 'section5');
+            }
+        }
+        changeLanguage('english');
+    </script>
+</body>
+</html>

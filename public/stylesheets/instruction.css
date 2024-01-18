@@ -1,0 +1,126 @@
+body {
+    background: url(../images/background.png) top repeat;
+}
+
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 75%;
+    padding-bottom: 3%
+}
+
+#inst {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-left: auto;
+    margin-right: auto;
+    width: 15%;
+    min-width: fit-content;
+    height: 40px;
+    font-size: larger;
+}
+
+/* .instructionBox {
+    background-color: whitesmoke;
+    border: 10px solid #ccc;
+    padding: 10px;
+    margin-bottom: 20px;
+    display: inline-block;
+    width: calc(50% - 30px);  
+     min-width: fit-content; 
+    box-sizing: border-box; 
+    margin-right: 20px; 
+    vertical-align: top;
+} */
+
+#languageTitle {
+    font-weight: bold;
+    text-align: center;
+    font-size: 50px;
+    color: whitesmoke;
+}
+
+#bl {
+    width: 20vh;
+    font-size: larger;
+    margin-left: auto;
+    margin-right: auto;
+    border: 10px;
+    height: 40px;
+    background-color: white;
+}
+
+#section1 {
+    background-color: whitesmoke;
+    border: 10px solid #ccc;
+    padding: 10px;
+    margin-bottom: 20px;
+    display: inline-block;
+    width: 45%;  
+    box-sizing: border-box; 
+    margin-right: 20px; 
+    vertical-align: top;
+    font-size: 16px;
+}
+
+#section2 {
+    background-color: whitesmoke;
+    border: 10px solid #ccc;
+    padding: 10px;
+    margin-bottom: 20px;
+    display: inline-block;
+    width: 50%;  
+    box-sizing: border-box; 
+    margin-right: 20px; 
+    vertical-align: top;
+}
+
+#section3 {
+    background-color: whitesmoke;
+    border: 10px solid #ccc;
+    padding: 10px;
+    margin-bottom: 20px;
+    display: inline-block;
+    width: 45%;  
+    box-sizing: border-box; 
+    margin-right: 20px; 
+    vertical-align: top;
+}
+
+#section4 {
+    background-color: whitesmoke;
+    border: 10px solid #ccc;
+    padding: 10px;
+    margin-bottom: 20px;
+    display: inline-block;
+    width: 50%;  
+    box-sizing: border-box; 
+    margin-right: 20px; 
+    vertical-align: top;
+}
+
+#section5 {
+    background-color: whitesmoke;
+    border: 10px solid #ccc;
+    padding: 10px;
+    margin-bottom: 20px;
+    display: inline-block;
+    width: 45%;  
+    box-sizing: border-box; 
+    margin-right: 20px; 
+    vertical-align: top;
+}
+
+#section6 {
+    background-color: whitesmoke;
+    border: 10px solid #ccc;
+    padding: 10px;
+    margin-bottom: 20px;
+    display: inline-block;
+    width: 50%;  
+    box-sizing: border-box; 
+    margin-right: 20px; 
+    vertical-align: top;
+}
